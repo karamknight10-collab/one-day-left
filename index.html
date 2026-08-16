@@ -22,7 +22,6 @@ body{
   font-family:Arial,Helvetica,sans-serif;
   min-height:100vh;
   overflow-x:hidden;
-  transition:.4s;
 }
 
 button{
@@ -173,7 +172,7 @@ h2{
 }
 
 .choice{
-  min-height:130px;
+  min-height:120px;
 }
 
 .choice.selected{
@@ -182,73 +181,11 @@ h2{
   border-color:white;
 }
 
-.emoji{
-  display:block;
-  font-size:32px;
-  margin-bottom:12px;
-}
-
-.progress{
-  position:absolute;
-  top:30px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:11px;
-  letter-spacing:3px;
-  color:rgba(255,255,255,.3);
-}
-
 .question-number{
   color:rgba(255,255,255,.3);
   font-size:12px;
   letter-spacing:3px;
   margin-bottom:18px;
-}
-
-.scale{
-  max-width:650px;
-  margin:35px auto;
-  padding:20px;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:20px;
-}
-
-.scale input{
-  width:100%;
-}
-
-.timeline{
-  max-width:650px;
-  margin:40px auto;
-  text-align:left;
-}
-
-.stat{
-  margin:20px 0;
-  text-align:left;
-}
-
-.stat-head{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:8px;
-  color:rgba(255,255,255,.65);
-  font-size:13px;
-}
-
-.bar{
-  width:100%;
-  height:6px;
-  border-radius:20px;
-  background:rgba(255,255,255,.08);
-  overflow:hidden;
-}
-
-.bar-fill{
-  height:100%;
-  width:0;
-  background:white;
-  transition:1.2s ease;
 }
 
 .result-card{
@@ -271,19 +208,32 @@ h2{
   line-height:1.8;
 }
 
-.event{
-  padding:22px 0;
-  border-bottom:1px solid rgba(255,255,255,.08);
+.stat{
+  margin:20px auto;
+  max-width:650px;
+  text-align:left;
 }
 
-.event h3{
-  font-weight:400;
+.stat-head{
+  display:flex;
+  justify-content:space-between;
   margin-bottom:8px;
+  color:rgba(255,255,255,.65);
+  font-size:13px;
 }
 
-.event p{
-  color:rgba(255,255,255,.4);
-  line-height:1.6;
+.bar{
+  width:100%;
+  height:6px;
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.bar-fill{
+  height:100%;
+  background:white;
+  transition:1.2s ease;
 }
 
 .final{
@@ -302,16 +252,10 @@ body.rtl{
   direction:rtl;
 }
 
-body.rtl h1,
-body.rtl h2{
-  letter-spacing:0;
-}
-
 body.rtl .label{
   letter-spacing:1px;
 }
 
-body.rtl .timeline,
 body.rtl .stat{
   text-align:right;
 }
@@ -344,171 +288,154 @@ body.rtl .stat{
 
 <body>
 
-<!-- LANGUAGE -->
-
 <section class="screen active" id="language">
+  <div class="glow"></div>
 
-<div class="glow"></div>
+  <div class="content">
+    <div class="label">One Day Left</div>
 
-<div class="content">
+    <h2>Choose your language</h2>
 
-<div class="label">One Day Left</div>
+    <p class="subtitle">
+      Choose the language for your experience.
+    </p>
 
-<h2 id="languageTitle">Choose your language</h2>
+    <div class="language-grid">
 
-<p class="subtitle" id="languageSubtitle">
-Choose the language for your experience.
-</p>
+      <button class="language" onclick="chooseLanguage('ar')">
+        <span class="flag">🇸🇦</span>
+        <strong>العربية</strong>
+        <span>العربية</span>
+      </button>
 
-<div class="language-grid">
+      <button class="language" onclick="chooseLanguage('ma')">
+        <span class="flag">🇲🇦</span>
+        <strong>الدارجة المغربية</strong>
+        <span>Darija</span>
+      </button>
 
-<button class="language" onclick="chooseLanguage('ar')">
-<span class="flag">🇸🇦</span>
-<strong>العربية</strong>
-<span>العربية</span>
-</button>
+      <button class="language" onclick="chooseLanguage('en')">
+        <span class="flag">🇬🇧</span>
+        <strong>English</strong>
+        <span>English</span>
+      </button>
 
-<button class="language" onclick="chooseLanguage('ma')">
-<span class="flag">🇲🇦</span>
-<strong>الدارجة المغربية</strong>
-<span>Darija</span>
-</button>
+      <button class="language" onclick="chooseLanguage('fr')">
+        <span class="flag">🇫🇷</span>
+        <strong>Français</strong>
+        <span>Français</span>
+      </button>
 
-<button class="language" onclick="chooseLanguage('en')">
-<span class="flag">🇬🇧</span>
-<strong>English</strong>
-<span>English</span>
-</button>
-
-<button class="language" onclick="chooseLanguage('fr')">
-<span class="flag">🇫🇷</span>
-<strong>Français</strong>
-<span>Français</span>
-</button>
-
-</div>
-
-</div>
+    </div>
+  </div>
 </section>
 
-
-<!-- CREDIT -->
 
 <section class="screen" id="credit">
+  <div class="glow"></div>
 
-<div class="glow"></div>
-
-<div class="content">
-
-<div class="label">One Day Left</div>
-
-<h2 id="creditText"></h2>
-
-</div>
+  <div class="content">
+    <div class="label">One Day Left</div>
+    <h2 id="creditText"></h2>
+  </div>
 </section>
 
-
-<!-- INTRO -->
 
 <section class="screen" id="intro">
+  <div class="glow"></div>
 
-<div class="glow"></div>
+  <div class="content">
 
-<div class="content">
+    <div class="label" id="introLabel"></div>
 
-<div class="label" id="introLabel"></div>
+    <h1 id="introTitle"></h1>
 
-<h1 id="introTitle"></h1>
+    <p class="subtitle" id="introSubtitle"></p>
 
-<p class="subtitle" id="introSubtitle"></p>
+    <button class="btn" id="startBtn" onclick="startTest()"></button>
 
-<button class="btn" id="startBtn" onclick="startTest()"></button>
-
-</div>
+  </div>
 </section>
 
-
-<!-- QUESTION -->
 
 <section class="screen" id="question">
 
-<div class="content">
+  <div class="content">
 
-<div class="question-number" id="questionNumber"></div>
+    <div class="question-number" id="questionNumber"></div>
 
-<h2 id="questionTitle"></h2>
+    <h2 id="questionTitle"></h2>
 
-<p class="subtitle" id="questionSubtitle"></p>
+    <p class="subtitle" id="questionSubtitle"></p>
 
-<div class="choices" id="questionChoices"></div>
+    <div class="choices" id="questionChoices"></div>
 
-<button class="btn" id="nextBtn" onclick="nextQuestion()"></button>
+    <button class="btn" id="nextBtn" onclick="nextQuestion()"></button>
 
-</div>
+  </div>
+
 </section>
 
-
-<!-- RESULT -->
 
 <section class="screen" id="result">
 
-<div class="content">
+  <div class="content">
 
-<div class="label" id="resultLabel"></div>
+    <div class="label" id="resultLabel"></div>
 
-<h2 id="resultTitle"></h2>
+    <h2 id="resultTitle"></h2>
 
-<div class="result-card">
+    <div class="result-card">
 
-<div class="result-type" id="resultType"></div>
+      <div class="result-type" id="resultType"></div>
 
-<p class="result-description" id="resultDescription"></p>
+      <p class="result-description" id="resultDescription"></p>
 
-</div>
+    </div>
 
-<div id="stats"></div>
+    <div id="stats"></div>
 
-<p class="subtitle" id="resultMessage"></p>
+    <p class="subtitle" id="resultMessage"></p>
 
-<button class="btn" id="finishBtn" onclick="showFinal()"></button>
+    <button class="btn" id="finishBtn" onclick="showFinal()"></button>
 
-</div>
+  </div>
+
 </section>
 
 
-<!-- FINAL -->
-
 <section class="screen" id="final">
 
-<div class="glow"></div>
+  <div class="glow"></div>
 
-<div class="content">
+  <div class="content">
 
-<div class="label" id="finalLabel"></div>
+    <div class="label" id="finalLabel"></div>
 
-<div class="final" id="finalText"></div>
+    <div class="final" id="finalText"></div>
 
-<p class="subtitle" id="finalSubtitle"></p>
+    <p class="subtitle" id="finalSubtitle"></p>
 
-<div class="thanks" id="thanks"></div>
+    <div class="thanks" id="thanks"></div>
 
-<br>
+    <br>
 
-<button class="btn" id="restartBtn" onclick="restart()"></button>
+    <button class="btn" id="restartBtn" onclick="restart()"></button>
 
-</div>
+  </div>
+
 </section>
 
 
 <script>
 
-let language = "en";
+let language="en";
 
-let currentQuestion = 0;
+let currentQuestion=0;
 
-let answers = {};
+let answers={};
 
-let stats = {
+let stats={
   empathy:0,
   creativity:0,
   curiosity:0,
@@ -518,11 +445,12 @@ let stats = {
   connection:0
 };
 
+let testQuestions=[];
 
-const T = {
+
+const T={
 
 en:{
-
 credit:"Made by Karam Al-Harsh",
 
 introLabel:"ONE DAY LEFT",
@@ -536,6 +464,8 @@ start:"Begin the experience →",
 
 question:"Question",
 
+choose:"Choose the answer that feels most like you.",
+
 next:"Continue →",
 
 finish:"Reveal who you are →",
@@ -548,72 +478,53 @@ finalLabel:"ONE LAST THOUGHT",
 
 finalText:"Maybe today<br>isn't your last day.",
 
-finalSubtitle:
-"So why are you waiting to live it?",
+finalSubtitle:"So why are you waiting to live it?",
 
 thanks:
 "Thank you for visiting my website.<br>I hope you enjoyed it. ❤️",
 
 restart:"Experience it again →",
 
-choose:"Choose the answer that feels most like you.",
-
 stats:{
-
 empathy:"Empathy",
-
 creativity:"Creativity",
-
 curiosity:"Curiosity",
-
 logic:"Thinking",
-
 courage:"Courage",
-
 selfAwareness:"Self-awareness",
-
 connection:"Connection"
-
 },
 
 types:{
-
 dreamer:{
 name:"THE DREAMER",
 description:
 "You see meaning in moments that other people might overlook. You value experiences, emotions and memories more than possessions."
 },
-
 explorer:{
 name:"THE EXPLORER",
 description:
 "You are driven by curiosity. The unknown doesn't scare you as much as the idea of living without discovering what is beyond the familiar."
 },
-
 thinker:{
 name:"THE DEEP THINKER",
 description:
 "You rarely accept things at surface level. You analyze, question and search for meaning before making important decisions."
 },
-
 guardian:{
 name:"THE GUARDIAN",
 description:
 "People matter deeply to you. You naturally think about the people around you and often put their feelings before your own."
 },
-
 creator:{
 name:"THE CREATOR",
 description:
 "You imagine possibilities that don't exist yet. You need freedom to create, experiment and express yourself."
 }
-
 }
-
 },
 
 ar:{
-
 credit:"صُنع بواسطة كرم الهرش",
 
 introLabel:"يوم واحد متبقٍ",
@@ -627,6 +538,8 @@ start:"ابدأ التجربة ←",
 
 question:"السؤال",
 
+choose:"اختر الإجابة التي تشعر أنها تشبهك أكثر.",
+
 next:"متابعة ←",
 
 finish:"اكتشف من أنت ←",
@@ -639,15 +552,11 @@ finalLabel:"فكرة أخيرة",
 
 finalText:"ربما اليوم<br>ليس يومك الأخير.",
 
-finalSubtitle:
-"فلماذا تنتظر حتى تبدأ بالعيش؟",
+finalSubtitle:"فلماذا تنتظر حتى تبدأ بالعيش؟",
 
-thanks:
-"شكرًا على زيارتكم لموقعي، وأتمنى أن يعجبكم. ❤️",
+thanks:"شكرًا على زيارتكم لموقعي، وأتمنى أن يعجبكم. ❤️",
 
 restart:"جرّب التجربة مرة أخرى ←",
-
-choose:"اختر الإجابة التي تشعر أنها تشبهك أكثر.",
 
 stats:{
 empathy:"التعاطف",
@@ -660,43 +569,35 @@ connection:"العلاقات"
 },
 
 types:{
-
 dreamer:{
 name:"الحالم",
 description:
 "ترى معنى في لحظات قد لا يلاحظها الآخرون. تقدر التجارب والمشاعر والذكريات أكثر من الأشياء."
 },
-
 explorer:{
 name:"المستكشف",
 description:
 "الفضول يحركك. المجهول لا يخيفك بقدر ما تخيفك فكرة أن تعيش دون اكتشاف ما يوجد خارج المألوف."
 },
-
 thinker:{
 name:"المفكر العميق",
 description:
 "نادراً ما تقبل الأشياء كما تبدو على السطح. تحلل وتسأل وتبحث عن المعنى قبل اتخاذ القرارات المهمة."
 },
-
 guardian:{
 name:"الحامي",
 description:
 "الناس يعنيون لك الكثير. غالبًا تفكر في مشاعر من حولك وقد تضعهم أحيانًا قبل نفسك."
 },
-
 creator:{
 name:"المبدع",
 description:
 "تتخيل أشياء غير موجودة بعد. تحتاج إلى الحرية حتى تخلق وتجرب وتعبر عن نفسك."
 }
-
 }
-
 },
 
 ma:{
-
 credit:"تصايب من طرف كرم الهرش",
 
 introLabel:"نهار واحد باقي",
@@ -710,6 +611,8 @@ start:"بدا التجربة ←",
 
 question:"السؤال",
 
+choose:"ختار الجواب اللي كتحس براسك قريب ليه.",
+
 next:"كمل ←",
 
 finish:"عرف شكون نتا ←",
@@ -722,15 +625,11 @@ finalLabel:"فكرة أخيرة",
 
 finalText:"يمكن اليوم<br>ماشي آخر نهار ليك.",
 
-finalSubtitle:
-"إيوا علاش باقي كتسنى باش تعيش؟",
+finalSubtitle:"إيوا علاش باقي كتسنى باش تعيش؟",
 
-thanks:
-"شكراً على الزيارة ديالكم لموقعي، ونتمنى يعجبكم. ❤️",
+thanks:"شكراً على الزيارة ديالكم لموقعي، ونتمنى يعجبكم. ❤️",
 
 restart:"عاود التجربة ←",
-
-choose:"ختار الجواب اللي كتحس براسك قريب ليه.",
 
 stats:{
 empathy:"التعاطف",
@@ -743,43 +642,35 @@ connection:"العلاقات"
 },
 
 types:{
-
 dreamer:{
 name:"الحالم",
 description:
 "كتشوف المعنى فحوايج ولحظات اللي ممكن الناس الآخرين ما ينتبهوش ليها. كتقدر التجارب والمشاعر والذكريات بزاف."
 },
-
 explorer:{
 name:"المستكشف",
 description:
 "الفضول هو اللي كيدفعك. المجهول ما كيخوفكش قد ما كتخاف تعيش بلا ما تكتاشف الجديد."
 },
-
 thinker:{
 name:"المفكر العميق",
 description:
 "ما كتقبلش الأمور غير كيفما باينة. كتفكر وكتحلل وكتقلب على المعنى قبل القرارات المهمة."
 },
-
 guardian:{
 name:"الحامي",
 description:
 "الناس اللي قريبين ليك مهمين بزاف عندك. كتفكر فمشاعر الآخرين وممكن تحطهم قبل راسك."
 },
-
 creator:{
 name:"المبدع",
 description:
 "عندك خيال وكتشوف إمكانيات مازال ما كايناش. الحرية مهمة عندك باش تخلق وتجرب وتعبر على راسك."
 }
-
 }
-
 },
 
 fr:{
-
 credit:"Créé par Karam Al-Harsh",
 
 introLabel:"UN JOUR RESTANT",
@@ -793,6 +684,8 @@ start:"Commencer l'expérience →",
 
 question:"Question",
 
+choose:"Choisissez la réponse qui vous ressemble le plus.",
+
 next:"Continuer →",
 
 finish:"Découvrir qui vous êtes →",
@@ -805,15 +698,11 @@ finalLabel:"UNE DERNIÈRE PENSÉE",
 
 finalText:"Peut-être qu'aujourd'hui<br>n'est pas votre dernier jour.",
 
-finalSubtitle:
-"Alors pourquoi attendre pour vivre ?",
+finalSubtitle:"Alors pourquoi attendre pour vivre ?",
 
-thanks:
-"Merci d’avoir visité mon site. J’espère qu’il vous a plu. ❤️",
+thanks:"Merci d’avoir visité mon site. J’espère qu’il vous a plu. ❤️",
 
 restart:"Recommencer l'expérience →",
-
-choose:"Choisissez la réponse qui vous ressemble le plus.",
 
 stats:{
 empathy:"Empathie",
@@ -826,51 +715,38 @@ connection:"Relations"
 },
 
 types:{
-
 dreamer:{
 name:"LE RÊVEUR",
 description:
 "Vous trouvez du sens dans des moments que les autres peuvent ne pas remarquer. Vous valorisez les expériences, les émotions et les souvenirs."
 },
-
 explorer:{
 name:"L'EXPLORATEUR",
 description:
 "Votre curiosité vous guide. L'inconnu vous fait moins peur que l'idée de vivre sans découvrir ce qui existe au-delà du familier."
 },
-
 thinker:{
 name:"LE PENSEUR PROFOND",
 description:
 "Vous acceptez rarement les choses en surface. Vous analysez, questionnez et cherchez un sens avant de prendre des décisions importantes."
 },
-
 guardian:{
 name:"LE PROTECTEUR",
 description:
 "Les autres comptent énormément pour vous. Vous pensez naturellement aux personnes autour de vous et à leurs émotions."
 },
-
 creator:{
 name:"LE CRÉATEUR",
 description:
 "Vous imaginez des possibilités qui n'existent pas encore. Vous avez besoin de liberté pour créer, expérimenter et vous exprimer."
 }
-
 }
-
 }
 
 };
 
 
-/*
-QUESTION BANK
-
-Chaque réponse ajoute des points à différents traits.
-*/
-
-const questions = [
+const questions=[
 
 {
 text:{
@@ -880,10 +756,34 @@ ma:"فقت وعارف بلي ما بقا ليك غير 24 ساعة. شنو أو�
 fr:"Vous vous réveillez en sachant qu'il ne vous reste que 24 heures. Que faites-vous en premier ?"
 },
 options:[
-["Call someone you love","اتصل بشخص تحبه","عيط لشي واحد كتحب","Appeler quelqu'un que vous aimez",{connection:4,empathy:3}],
-["Leave and explore","اخرج واكتشف مكانًا جديدًا","خرج واكتاشف بلاصة جديدة",{fr:"Partir explorer",}, {curiosity:5,courage:4}],
-["Stay alone and think","ابقَ وحدك وفكر","بقا بوحدك وفكر",{},{selfAwareness:5,logic:3}],
-["Create something","اصنع شيئًا","صايب شي حاجة",{},{creativity:5,selfAwareness:2}]
+{
+en:"Call someone you love",
+ar:"أتصل بشخص أحبه",
+ma:"نعيط لشي واحد كنبغيه",
+fr:"Appeler quelqu'un que vous aimez",
+score:{connection:4,empathy:3}
+},
+{
+en:"Leave and explore",
+ar:"أخرج وأكتشف مكانًا جديدًا",
+ma:"نخرج ونكتاشف بلاصة جديدة",
+fr:"Partir explorer",
+score:{curiosity:5,courage:4}
+},
+{
+en:"Stay alone and think",
+ar:"أبقى وحدي وأفكر",
+ma:"نبقى بوحدي ونفكر",
+fr:"Rester seul et réfléchir",
+score:{selfAwareness:5,logic:3}
+},
+{
+en:"Create something",
+ar:"أصنع شيئًا",
+ma:"نصايب شي حاجة",
+fr:"Créer quelque chose",
+score:{creativity:5,selfAwareness:2}
+}
 ]
 },
 
@@ -895,10 +795,34 @@ ma:"شي واحد جرحك من سنين واعتذر ليك بصدق. شنو غ
 fr:"Quelqu'un vous a blessé il y a des années et s'est sincèrement excusé. Que faites-vous ?"
 },
 options:[
-["Forgive them","أسامحه","نسامحو","Lui pardonner",{empathy:5,connection:3}],
-["Ask what happened","أسأله عما حدث","نسولو شنو وقع","Demander ce qui s'est passé",{logic:4,selfAwareness:3}],
-["Keep your distance","أبقى بعيدًا","نبقى بعيد","Garder mes distances",{selfAwareness:4,courage:2}],
-["Give them another chance","أعطيه فرصة أخرى","نعطيه فرصة أخرى","Lui donner une autre chance",{connection:5,empathy:3}]
+{
+en:"Forgive them",
+ar:"أسامحه",
+ma:"نسامحو",
+fr:"Lui pardonner",
+score:{empathy:5,connection:3}
+},
+{
+en:"Ask what happened",
+ar:"أسأله عما حدث",
+ma:"نسولو شنو وقع",
+fr:"Demander ce qui s'est passé",
+score:{logic:4,selfAwareness:3}
+},
+{
+en:"Keep your distance",
+ar:"أبقى بعيدًا",
+ma:"نبقى بعيد",
+fr:"Garder mes distances",
+score:{selfAwareness:4,courage:2}
+},
+{
+en:"Give them another chance",
+ar:"أعطيه فرصة أخرى",
+ma:"نعطيه فرصة أخرى",
+fr:"Lui donner une autre chance",
+score:{connection:5,empathy:3}
+}
 ]
 },
 
@@ -910,10 +834,34 @@ ma:"تقدر تخلي غير ذكرى وحدة معاك ديما. شنو غاد�
 fr:"Vous pouvez garder un seul souvenir pour toujours. Lequel choisissez-vous ?"
 },
 options:[
-["A family moment","لحظة مع العائلة","لحظة مع العائلة","Un moment en famille",{connection:5,empathy:3}],
-["An adventure","مغامرة","مغامرة","Une aventure",{curiosity:4,courage:4}],
-["A quiet moment alone","لحظة هادئة وحدي","لحظة هانية بوحدي","Un moment calme seul",{selfAwareness:5}],
-["Something I created","شيء صنعته","شي حاجة صايبتها","Quelque chose que j'ai créé",{creativity:5}]
+{
+en:"A family moment",
+ar:"لحظة مع العائلة",
+ma:"لحظة مع العائلة",
+fr:"Un moment en famille",
+score:{connection:5,empathy:3}
+},
+{
+en:"An adventure",
+ar:"مغامرة",
+ma:"مغامرة",
+fr:"Une aventure",
+score:{curiosity:4,courage:4}
+},
+{
+en:"A quiet moment alone",
+ar:"لحظة هادئة وحدي",
+ma:"لحظة هانية بوحدي",
+fr:"Un moment calme seul",
+score:{selfAwareness:5}
+},
+{
+en:"Something I created",
+ar:"شيء صنعته",
+ma:"شي حاجة صايبتها",
+fr:"Quelque chose que j'ai créé",
+score:{creativity:5}
+}
 ]
 },
 
@@ -925,10 +873,34 @@ ma:"عندك فلوس بلا حدود، ولكن تقدر تصرفهم غير ع
 fr:"Vous recevez de l'argent illimité, mais vous ne pouvez le dépenser que pour une seule chose."
 },
 options:[
-["Travel the world","السفر حول العالم","نسافر فالعالم كامل","Voyager autour du monde",{curiosity:5,courage:3}],
-["Help people I love","مساعدة من أحب","نعاون الناس اللي كنحب","Aider les personnes que j'aime",{empathy:5,connection:5}],
-["Build something meaningful","بناء شيء له معنى","نبني شي حاجة عندها معنى","Construire quelque chose de significatif",{creativity:5,logic:2}],
-["Keep it for security","أحتفظ به للأمان","نخليه للأمان","Le garder pour la sécurité",{logic:5,selfAwareness:2}]
+{
+en:"Travel the world",
+ar:"السفر حول العالم",
+ma:"نسافر فالعالم كامل",
+fr:"Voyager autour du monde",
+score:{curiosity:5,courage:3}
+},
+{
+en:"Help people I love",
+ar:"مساعدة من أحب",
+ma:"نعاون الناس اللي كنحب",
+fr:"Aider les personnes que j'aime",
+score:{empathy:5,connection:5}
+},
+{
+en:"Build something meaningful",
+ar:"بناء شيء له معنى",
+ma:"نبني شي حاجة عندها معنى",
+fr:"Construire quelque chose de significatif",
+score:{creativity:5,logic:2}
+},
+{
+en:"Keep it for security",
+ar:"أحتفظ به للأمان",
+ma:"نخليه للأمان",
+fr:"Le garder pour la sécurité",
+score:{logic:5,selfAwareness:2}
+}
 ]
 },
 
@@ -940,10 +912,34 @@ ma:"شنو الحاجة اللي كتخوفك كثر؟",
 fr:"Qu'est-ce qui vous fait le plus peur ?"
 },
 options:[
-["Being forgotten","أن يُنسى وجودي","نولي منسي","Être oublié",{connection:5,empathy:3}],
-["Never discovering my potential","ألا أكتشف إمكانياتي","ما نكتاشفش شنو نقدر ندير","Ne jamais découvrir mon potentiel",{curiosity:5,creativity:3}],
-["Making the wrong decision","اتخاذ القرار الخاطئ","ناخد قرار غالط","Prendre la mauvaise décision",{logic:5,selfAwareness:3}],
-["Living someone else's life","أن أعيش حياة شخص آخر","نعيش حياة ماشي ديالي","Vivre la vie de quelqu'un d'autre",{courage:5,selfAwareness:4}]
+{
+en:"Being forgotten",
+ar:"أن يُنسى وجودي",
+ma:"نولي منسي",
+fr:"Être oublié",
+score:{connection:5,empathy:3}
+},
+{
+en:"Never discovering my potential",
+ar:"ألا أكتشف إمكانياتي",
+ma:"ما نكتاشفش شنو نقدر ندير",
+fr:"Ne jamais découvrir mon potentiel",
+score:{curiosity:5,creativity:3}
+},
+{
+en:"Making the wrong decision",
+ar:"اتخاذ القرار الخاطئ",
+ma:"ناخد قرار غالط",
+fr:"Prendre la mauvaise décision",
+score:{logic:5,selfAwareness:3}
+},
+{
+en:"Living someone else's life",
+ar:"أن أعيش حياة شخص آخر",
+ma:"نعيش حياة ماشي ديالي",
+fr:"Vivre la vie de quelqu'un d'autre",
+score:{courage:5,selfAwareness:4}
+}
 ]
 },
 
@@ -955,10 +951,34 @@ ma:"إيلا شي واحد قدر يفهم عليك حاجة وحدة بلا م�
 fr:"Si quelqu'un pouvait comprendre une seule chose sur vous sans explication, que voudriez-vous qu'il comprenne ?"
 },
 options:[
-["What I feel","ما أشعر به","شنو كنحس","Ce que je ressens",{empathy:5,selfAwareness:4}],
-["What I dream about","ما أحلم به","شنو كنحلم به","Mes rêves",{creativity:5,curiosity:3}],
-["Why I make my choices","لماذا أتخذ قراراتي","علاش كندير اختياراتي","Pourquoi je fais mes choix",{logic:5,selfAwareness:4}],
-["How much people mean to me","كم يعني لي الناس","شحال الناس مهمين عندي","À quel point les gens comptent pour moi",{connection:5,empathy:5}]
+{
+en:"What I feel",
+ar:"ما أشعر به",
+ma:"شنو كنحس",
+fr:"Ce que je ressens",
+score:{empathy:5,selfAwareness:4}
+},
+{
+en:"What I dream about",
+ar:"ما أحلم به",
+ma:"شنو كنحلم به",
+fr:"Mes rêves",
+score:{creativity:5,curiosity:3}
+},
+{
+en:"Why I make my choices",
+ar:"لماذا أتخذ قراراتي",
+ma:"علاش كندير اختياراتي",
+fr:"Pourquoi je fais mes choix",
+score:{logic:5,selfAwareness:4}
+},
+{
+en:"How much people mean to me",
+ar:"كم يعني لي الناس",
+ma:"شحال الناس مهمين عندي",
+fr:"À quel point les gens comptent pour moi",
+score:{connection:5,empathy:5}
+}
 ]
 },
 
@@ -970,10 +990,34 @@ ma:"مع الغروب فهمتي بلي دوزتي سنين كتدير غير ا
 fr:"Au coucher du soleil, vous réalisez avoir passé des années à faire ce que les autres attendaient de vous. Que faites-vous ?"
 },
 options:[
-["Change everything","أغير كل شيء","نبدل كلشي","Tout changer",{courage:5,creativity:3}],
-["Talk to someone","أتحدث مع شخص","نهضر مع شي واحد","Parler à quelqu'un",{connection:5,empathy:4}],
-["Think about where I went wrong","أفكر أين أخطأت","نفكر فين غلطت","Réfléchir à mes erreurs",{selfAwareness:5,logic:4}],
-["Start something new","أبدأ شيئًا جديدًا","نبدا شي حاجة جديدة","Commencer quelque chose de nouveau",{curiosity:5,courage:4}]
+{
+en:"Change everything",
+ar:"أغير كل شيء",
+ma:"نبدل كلشي",
+fr:"Tout changer",
+score:{courage:5,creativity:3}
+},
+{
+en:"Talk to someone",
+ar:"أتحدث مع شخص",
+ma:"نهضر مع شي واحد",
+fr:"Parler à quelqu'un",
+score:{connection:5,empathy:4}
+},
+{
+en:"Think about where I went wrong",
+ar:"أفكر أين أخطأت",
+ma:"نفكر فين غلطت",
+fr:"Réfléchir à mes erreurs",
+score:{selfAwareness:5,logic:4}
+},
+{
+en:"Start something new",
+ar:"أبدأ شيئًا جديدًا",
+ma:"نبدا شي حاجة جديدة",
+fr:"Commencer quelque chose de nouveau",
+score:{curiosity:5,courage:4}
+}
 ]
 },
 
@@ -985,10 +1029,34 @@ ma:"شنو غادي تختار لآخر ليلة؟",
 fr:"Que choisiriez-vous pour votre dernière soirée ?"
 },
 options:[
-["Dinner with loved ones","عشاء مع من أحب","عشا مع الناس اللي كنحب","Un dîner avec ceux que j'aime",{connection:5,empathy:4}],
-["Watching the stars alone","مشاهدة النجوم وحدي","نتفرج فالنجوم بوحدي","Regarder les étoiles seul",{selfAwareness:5,curiosity:3}],
-["A spontaneous adventure","مغامرة عفوية","مغامرة بلا تخطيط","Une aventure spontanée",{courage:5,curiosity:5}],
-["Creating something to leave behind","صناعة شيء يبقى بعدي","نصايب شي حاجة تبقى من بعدي","Créer quelque chose à laisser derrière moi",{creativity:5,connection:3}]
+{
+en:"Dinner with loved ones",
+ar:"عشاء مع من أحب",
+ma:"عشا مع الناس اللي كنحب",
+fr:"Un dîner avec ceux que j'aime",
+score:{connection:5,empathy:4}
+},
+{
+en:"Watching the stars alone",
+ar:"مشاهدة النجوم وحدي",
+ma:"نتفرج فالنجوم بوحدي",
+fr:"Regarder les étoiles seul",
+score:{selfAwareness:5,curiosity:3}
+},
+{
+en:"A spontaneous adventure",
+ar:"مغامرة عفوية",
+ma:"مغامرة بلا تخطيط",
+fr:"Une aventure spontanée",
+score:{courage:5,curiosity:5}
+},
+{
+en:"Creating something to leave behind",
+ar:"صناعة شيء يبقى بعدي",
+ma:"نصايب شي حاجة تبقى من بعدي",
+fr:"Créer quelque chose à laisser derrière moi",
+score:{creativity:5,connection:3}
+}
 ]
 },
 
@@ -1000,10 +1068,34 @@ ma:"شنو الحاجة اللي غادي تندم عليها كثر؟",
 fr:"Que regretteriez-vous le plus ?"
 },
 options:[
-["Not saying 'I love you'","عدم قول أحبك","ما قلتش كنحبك","Ne pas avoir dit « je t'aime »",{connection:5,empathy:5}],
-["Not taking a chance","عدم المجازفة","ما جربتش","Ne pas avoir tenté ma chance",{courage:5,curiosity:4}],
-["Not becoming who I wanted","عدم أن أصبح الشخص الذي أردته","ما وليتش الشخص اللي بغيت","Ne pas être devenu qui je voulais être",{selfAwareness:5,creativity:3}],
-["Making choices without thinking","اتخاذ قرارات دون تفكير","خديت قرارات بلا تفكير","Avoir pris des décisions sans réfléchir",{logic:5,selfAwareness:4}]
+{
+en:"Not saying 'I love you'",
+ar:"عدم قول أحبك",
+ma:"ما قلتش كنحبك",
+fr:"Ne pas avoir dit « je t'aime »",
+score:{connection:5,empathy:5}
+},
+{
+en:"Not taking a chance",
+ar:"عدم المجازفة",
+ma:"ما جربتش",
+fr:"Ne pas avoir tenté ma chance",
+score:{courage:5,curiosity:4}
+},
+{
+en:"Not becoming who I wanted",
+ar:"عدم أن أصبح الشخص الذي أردته",
+ma:"ما وليتش الشخص اللي بغيت",
+fr:"Ne pas être devenu qui je voulais être",
+score:{selfAwareness:5,creativity:3}
+},
+{
+en:"Making choices without thinking",
+ar:"اتخاذ قرارات دون تفكير",
+ma:"خديت قرارات بلا تفكير",
+fr:"Avoir pris des décisions sans réfléchir",
+score:{logic:5,selfAwareness:4}
+}
 ]
 },
 
@@ -1015,10 +1107,34 @@ ma:"عندك ساعة كاملة بوحدك. شنو غادي تدير بلا م�
 fr:"Vous avez une heure complètement seul. Que faites-vous naturellement ?"
 },
 options:[
-["Think about my life","أفكر في حياتي","نفكر فحياتي","Réfléchir à ma vie",{selfAwareness:5,logic:3}],
-["Make something","أصنع شيئًا","نصايب شي حاجة","Créer quelque chose",{creativity:5}],
-["Explore something new","أكتشف شيئًا جديدًا","نكتاشف شي حاجة جديدة","Explorer quelque chose de nouveau",{curiosity:5}],
-["Message someone","أرسل رسالة لشخص","نصيفط ميساج لشي واحد","Écrire à quelqu'un",{connection:5}]
+{
+en:"Think about my life",
+ar:"أفكر في حياتي",
+ma:"نفكر فحياتي",
+fr:"Réfléchir à ma vie",
+score:{selfAwareness:5,logic:3}
+},
+{
+en:"Make something",
+ar:"أصنع شيئًا",
+ma:"نصايب شي حاجة",
+fr:"Créer quelque chose",
+score:{creativity:5}
+},
+{
+en:"Explore something new",
+ar:"أكتشف شيئًا جديدًا",
+ma:"نكتاشف شي حاجة جديدة",
+fr:"Explorer quelque chose de nouveau",
+score:{curiosity:5}
+},
+{
+en:"Message someone",
+ar:"أرسل رسالة لشخص",
+ma:"نصيفط ميساج لشي واحد",
+fr:"Écrire à quelqu'un",
+score:{connection:5}
+}
 ]
 },
 
@@ -1030,10 +1146,34 @@ ma:"إيلا قدرت تسمع جملة وحدة من شي واحد فقدتيه
 fr:"Si vous pouviez entendre une seule phrase d'une personne que vous avez perdue ou dont vous vous êtes éloigné, que voudriez-vous entendre ?"
 },
 options:[
-["I never stopped caring","لم أتوقف عن الاهتمام بك","عمري حبست نهتم بيك","Je n'ai jamais cessé de tenir à toi",{connection:5,empathy:5}],
-["I'm proud of you","أنا فخور بك","أنا فخور بيك","Je suis fier de toi",{connection:4,selfAwareness:4}],
-["I'm sorry","أنا آسف","سمح ليا","Je suis désolé",{empathy:5,selfAwareness:4}],
-["You were enough","كنت كافيًا كما أنت","كنت كافي كيفما نتا","Tu étais suffisant tel que tu es",{selfAwareness:5,empathy:5}]
+{
+en:"I never stopped caring",
+ar:"لم أتوقف عن الاهتمام بك",
+ma:"عمري حبست نهتم بيك",
+fr:"Je n'ai jamais cessé de tenir à toi",
+score:{connection:5,empathy:5}
+},
+{
+en:"I'm proud of you",
+ar:"أنا فخور بك",
+ma:"أنا فخور بيك",
+fr:"Je suis fier de toi",
+score:{connection:4,selfAwareness:4}
+},
+{
+en:"I'm sorry",
+ar:"أنا آسف",
+ma:"سمح ليا",
+fr:"Je suis désolé",
+score:{empathy:5,selfAwareness:4}
+},
+{
+en:"You were enough",
+ar:"كنت كافيًا كما أنت",
+ma:"كنت كافي كيفما نتا",
+fr:"Tu étais suffisant tel que tu es",
+score:{selfAwareness:5,empathy:5}
+}
 ]
 },
 
@@ -1045,10 +1185,34 @@ ma:"إيلا غدا الناس كاملين نساو شكون نتا، شنو ب
 fr:"Si demain tout le monde oubliait qui vous êtes, que voudriez-vous qu'ils retiennent de vous ?"
 },
 options:[
-["I made people feel loved","جعلت الناس يشعرون بالحب","خليت الناس يحسو بالحب","J'ai fait sentir aux gens qu'ils étaient aimés",{empathy:5,connection:5}],
-["I created something","أنني صنعت شيئًا","صايبت شي حاجة","J'ai créé quelque chose",{creativity:5}],
-["I lived freely","أنني عشت بحرية","عشت بحريتي","J'ai vécu librement",{courage:5,curiosity:4}],
-["I understood things deeply","أنني فهمت الأشياء بعمق","كنت كنفهم الأمور بعمق","J'ai compris les choses profondément",{logic:5,selfAwareness:5}]
+{
+en:"I made people feel loved",
+ar:"جعلت الناس يشعرون بالحب",
+ma:"خليت الناس يحسو بالحب",
+fr:"J'ai fait sentir aux gens qu'ils étaient aimés",
+score:{empathy:5,connection:5}
+},
+{
+en:"I created something",
+ar:"أنني صنعت شيئًا",
+ma:"صايبت شي حاجة",
+fr:"J'ai créé quelque chose",
+score:{creativity:5}
+},
+{
+en:"I lived freely",
+ar:"أنني عشت بحرية",
+ma:"عشت بحريتي",
+fr:"J'ai vécu librement",
+score:{courage:5,curiosity:4}
+},
+{
+en:"I understood things deeply",
+ar:"أنني فهمت الأشياء بعمق",
+ma:"كنت كنفهم الأمور بعمق",
+fr:"J'ai compris les choses profondément",
+score:{logic:5,selfAwareness:5}
+}
 ]
 },
 
@@ -1060,10 +1224,34 @@ ma:"تقدر تسول راسك فالمستقبل غير سؤال واحد. شن
 fr:"Vous pouvez poser une question à votre futur vous. Que demandez-vous ?"
 },
 options:[
-["Are we happy?","هل نحن سعداء؟","واش حنا فرحانين؟","Sommes-nous heureux ?",{selfAwareness:5,empathy:3}],
-["Did we take the chances?","هل اغتنمنا الفرص؟","واش استغلينا الفرص؟","Avons-nous saisi les occasions ?",{courage:5,curiosity:4}],
-["Did we become successful?","هل نجحنا؟","واش نجحنا؟","Avons-nous réussi ?",{logic:4,selfAwareness:3}],
-["Did we make a difference?","هل تركنا أثرًا؟","واش خلينا أثر؟","Avons-nous fait une différence ?",{connection:5,creativity:4}]
+{
+en:"Are we happy?",
+ar:"هل نحن سعداء؟",
+ma:"واش حنا فرحانين؟",
+fr:"Sommes-nous heureux ?",
+score:{selfAwareness:5,empathy:3}
+},
+{
+en:"Did we take the chances?",
+ar:"هل اغتنمنا الفرص؟",
+ma:"واش استغلينا الفرص؟",
+fr:"Avons-nous saisi les occasions ?",
+score:{courage:5,curiosity:4}
+},
+{
+en:"Did we become successful?",
+ar:"هل نجحنا؟",
+ma:"واش نجحنا؟",
+fr:"Avons-nous réussi ?",
+score:{logic:4,selfAwareness:3}
+},
+{
+en:"Did we make a difference?",
+ar:"هل تركنا أثرًا؟",
+ma:"واش خلينا أثر؟",
+fr:"Avons-nous fait une différence ?",
+score:{connection:5,creativity:4}
+}
 ]
 },
 
@@ -1075,42 +1263,83 @@ ma:"شنو الحاجة اللي كتخبيها على أغلب الناس؟",
 fr:"Que cachez-vous à la plupart des gens ?"
 },
 options:[
-["How sensitive I am","مدى حساسيتي","شحال أنا حساس","À quel point je suis sensible",{empathy:5,selfAwareness:5}],
-["How ambitious I am","طموحي الحقيقي","شحال أنا طموح","À quel point je suis ambitieux",{courage:4,creativity:4}],
-["How much I overthink","كم أفكر أكثر من اللازم","شحال كنخمم بزاف","À quel point je réfléchis trop",{logic:5,selfAwareness:5}],
-["How much I want to explore","رغبتي في اكتشاف العالم","شحال باغي نكتاشف العالم","À quel point je veux explorer",{curiosity:5,courage:3}]
+{
+en:"How sensitive I am",
+ar:"مدى حساسيتي",
+ma:"شحال أنا حساس",
+fr:"À quel point je suis sensible",
+score:{empathy:5,selfAwareness:5}
+},
+{
+en:"How ambitious I am",
+ar:"طموحي الحقيقي",
+ma:"شحال أنا طموح",
+fr:"À quel point je suis ambitieux",
+score:{courage:4,creativity:4}
+},
+{
+en:"How much I overthink",
+ar:"كم أفكر أكثر من اللازم",
+ma:"شحال كنخمم بزاف",
+fr:"À quel point je réfléchis trop",
+score:{logic:5,selfAwareness:5}
+},
+{
+en:"How much I want to explore",
+ar:"رغبتي في اكتشاف العالم",
+ma:"شحال باغي نكتاشف العالم",
+fr:"À quel point je veux explorer",
+score:{curiosity:5,courage:3}
+}
 ]
 }
 
 ];
 
 
-function getText(obj){
-  return obj[language] || obj.en;
+function show(id){
+
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.remove("active");
+  });
+
+  const target=document.getElementById(id);
+
+  target.classList.add("active");
+
+  const content=target.querySelector(".content");
+
+  if(content){
+    content.style.animation="none";
+    void content.offsetWidth;
+    content.style.animation="appear .8s ease";
+  }
+
+  window.scrollTo(0,0);
 }
 
 
 function chooseLanguage(lang){
 
-  language = lang;
+  language=lang;
 
-  localStorage.setItem("oneDayLeftLanguage",lang);
+  document.documentElement.lang=lang;
 
-  document.documentElement.lang = lang;
+  document.body.classList.toggle(
+    "rtl",
+    lang==="ar" || lang==="ma"
+  );
 
-  document.body.classList.toggle("rtl",lang==="ar" || lang==="ma");
-
-  const t=T[lang];
+  const t=T[language];
 
   document.getElementById("creditText").innerHTML=t.credit;
 
   show("credit");
 
   setTimeout(()=>{
-    show("intro");
     updateIntro();
+    show("intro");
   },2300);
-
 }
 
 
@@ -1125,34 +1354,6 @@ function updateIntro(){
   document.getElementById("introSubtitle").innerHTML=t.introSubtitle;
 
   document.getElementById("startBtn").innerHTML=t.start;
-
-}
-
-
-function show(id){
-
-  document.querySelectorAll(".screen").forEach(s=>{
-    s.classList.remove("active");
-  });
-
-  const target=document.getElementById(id);
-
-  target.classList.add("active");
-
-  const content=target.querySelector(".content");
-
-  if(content){
-
-    content.style.animation="none";
-
-    void content.offsetWidth;
-
-    content.style.animation="appear .8s ease";
-
-  }
-
-  window.scrollTo(0,0);
-
 }
 
 
@@ -1173,36 +1374,37 @@ function startTest(){
   };
 
   /*
-  اختيار 10 إلى 15 سؤال.
+    كل مرة نبدأ الاختبار يتم اختيار
+    عدد عشوائي من 10 إلى 15 سؤال.
   */
 
   const count=10+Math.floor(Math.random()*6);
 
-  window.testQuestions=[...questions]
-    .sort(()=>Math.random()-.5)
+  testQuestions=[...questions]
+    .sort(()=>Math.random()-0.5)
     .slice(0,count);
 
   renderQuestion();
-
 }
 
 
 function renderQuestion(){
 
-  const q=window.testQuestions[currentQuestion];
+  const q=testQuestions[currentQuestion];
 
   const t=T[language];
 
   document.getElementById("questionNumber").innerHTML=
-    `${t.question} ${currentQuestion+1} / ${window.testQuestions.length}`;
+    `${t.question} ${currentQuestion+1} / ${testQuestions.length}`;
 
   document.getElementById("questionTitle").innerHTML=
-    getText(q.text);
+    q.text[language];
 
   document.getElementById("questionSubtitle").innerHTML=
     t.choose;
 
-  const container=document.getElementById("questionChoices");
+  const container=
+    document.getElementById("questionChoices");
 
   container.innerHTML="";
 
@@ -1212,46 +1414,30 @@ function renderQuestion(){
 
     button.className="choice";
 
-    button.innerHTML=getOptionText(option);
+    button.innerHTML=option[language];
 
     button.onclick=()=>{
 
-      container.querySelectorAll(".choice").forEach(b=>{
-        b.classList.remove("selected");
-      });
+      container
+        .querySelectorAll(".choice")
+        .forEach(b=>{
+          b.classList.remove("selected");
+        });
 
       button.classList.add("selected");
 
-      answers[currentQuestion]=option[4];
-
+      answers[currentQuestion]=option.score;
     };
 
     container.appendChild(button);
-
   });
 
   document.getElementById("nextBtn").innerHTML=
-    currentQuestion===window.testQuestions.length-1
+    currentQuestion===testQuestions.length-1
       ? t.finish
       : t.next;
 
   show("question");
-
-}
-
-
-function getOptionText(option){
-
-  if(language==="en") return option[0];
-
-  if(language==="ar") return option[1];
-
-  if(language==="ma") return option[2];
-
-  if(language==="fr") return option[3];
-
-  return option[0];
-
 }
 
 
@@ -1271,7 +1457,6 @@ function nextQuestion(){
     alert(messages[language]);
 
     return;
-
   }
 
   Object.keys(answer).forEach(key=>{
@@ -1280,55 +1465,50 @@ function nextQuestion(){
 
   currentQuestion++;
 
-  if(currentQuestion>=window.testQuestions.length){
-
+  if(currentQuestion>=testQuestions.length){
     calculateResult();
-
   }else{
-
     renderQuestion();
-
   }
-
 }
 
 
 function calculateResult(){
 
-  let type="dreamer";
-
   const scores=stats;
 
-  if(scores.creativity>=scores.curiosity &&
-     scores.creativity>=scores.connection &&
-     scores.creativity>=scores.logic){
+  let type="dreamer";
 
+  if(
+    scores.creativity>=scores.curiosity &&
+    scores.creativity>=scores.connection &&
+    scores.creativity>=scores.logic
+  ){
     type="creator";
-
   }
 
-  if(scores.curiosity>scores.creativity &&
-     scores.curiosity>=scores.connection &&
-     scores.curiosity>=scores.logic){
-
+  if(
+    scores.curiosity>scores.creativity &&
+    scores.curiosity>=scores.connection &&
+    scores.curiosity>=scores.logic
+  ){
     type="explorer";
-
   }
 
-  if(scores.logic>scores.curiosity &&
-     scores.logic>=scores.connection &&
-     scores.logic>=scores.creativity){
-
+  if(
+    scores.logic>scores.curiosity &&
+    scores.logic>=scores.connection &&
+    scores.logic>=scores.creativity
+  ){
     type="thinker";
-
   }
 
-  if(scores.connection>scores.logic &&
-     scores.connection>=scores.curiosity &&
-     scores.connection>=scores.creativity){
-
+  if(
+    scores.connection>scores.logic &&
+    scores.connection>=scores.curiosity &&
+    scores.connection>=scores.creativity
+  ){
     type="guardian";
-
   }
 
   if(
@@ -1340,13 +1520,10 @@ function calculateResult(){
       scores.connection
     )
   ){
-
     type="dreamer";
-
   }
 
   showResult(type);
-
 }
 
 
@@ -1368,12 +1545,12 @@ function showResult(type){
   document.getElementById("resultDescription").innerHTML=
     profile.description;
 
-  const statsContainer=document.getElementById("stats");
+  const statsContainer=
+    document.getElementById("stats");
 
   statsContainer.innerHTML="";
 
   const maxValues={
-
     empathy:60,
     creativity:60,
     curiosity:60,
@@ -1381,12 +1558,11 @@ function showResult(type){
     courage:60,
     selfAwareness:60,
     connection:60
-
   };
 
   Object.keys(stats).forEach(key=>{
 
-    let percentage=Math.round(
+    const percentage=Math.round(
       Math.min(
         100,
         (stats[key]/maxValues[key])*100
@@ -1400,31 +1576,26 @@ function showResult(type){
     div.innerHTML=`
 
       <div class="stat-head">
-
         <span>${t.stats[key]}</span>
-
         <span>${percentage}%</span>
-
       </div>
 
       <div class="bar">
-
         <div class="bar-fill"
              style="width:${percentage}%">
         </div>
-
       </div>
 
     `;
 
     statsContainer.appendChild(div);
-
   });
 
 
   const strongest=
     Object.keys(stats)
       .sort((a,b)=>stats[b]-stats[a])[0];
+
 
   const messages={
 
@@ -1478,7 +1649,6 @@ function showResult(type){
     t.finish;
 
   show("result");
-
 }
 
 
@@ -1502,37 +1672,23 @@ function showFinal(){
     t.restart;
 
   show("final");
-
 }
 
 
 function restart(){
 
-  show("intro");
+  /*
+    العودة لاختيار اللغة من جديد.
+    لا يوجد localStorage للغة.
+  */
 
-  updateIntro();
+  language="en";
 
-}
+  document.documentElement.lang="en";
 
+  document.body.classList.remove("rtl");
 
-const savedLanguage=
-  localStorage.getItem("oneDayLeftLanguage");
-
-if(savedLanguage && T[savedLanguage]){
-
-  language=savedLanguage;
-
-  document.documentElement.lang=language;
-
-  document.body.classList.toggle(
-    "rtl",
-    language==="ar" || language==="ma"
-  );
-
-  updateIntro();
-
-  show("intro");
-
+  show("language");
 }
 
 </script>
