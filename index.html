@@ -1,1345 +1,1541 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>One Day Left</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Day Left</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    body {
-      background: #080808;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      overflow-x: hidden;
-      transition: direction .3s;
-    }
+body{
+  background:#070707;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  transition:.4s;
+}
 
-    button {
-      font: inherit;
-    }
+button{
+  font:inherit;
+}
 
-    .screen {
-      min-height: 100vh;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 30px 20px;
-      position: relative;
-      overflow: hidden;
-    }
+.screen{
+  min-height:100vh;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:30px 20px;
+  position:relative;
+  overflow:hidden;
+}
 
-    .screen.active {
-      display: flex;
-    }
+.screen.active{
+  display:flex;
+}
 
-    .glow {
-      position: absolute;
-      width: 550px;
-      height: 550px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.055);
-      filter: blur(120px);
-      animation: breathe 8s ease-in-out infinite;
-      pointer-events: none;
-    }
+.content{
+  width:min(850px,100%);
+  text-align:center;
+  position:relative;
+  z-index:2;
+  animation:appear .8s ease;
+}
 
-    @keyframes breathe {
-      0%,100% {
-        transform: scale(1);
-        opacity: .4;
-      }
+@keyframes appear{
+  from{
+    opacity:0;
+    transform:translateY(25px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
 
-      50% {
-        transform: scale(1.25);
-        opacity: .9;
-      }
-    }
+.glow{
+  width:500px;
+  height:500px;
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.05);
+  filter:blur(110px);
+  animation:pulse 7s infinite ease-in-out;
+}
 
-    .content {
-      position: relative;
-      z-index: 2;
-      width: min(900px, 100%);
-      text-align: center;
-    }
+@keyframes pulse{
+  0%,100%{
+    transform:scale(.9);
+    opacity:.3;
+  }
+  50%{
+    transform:scale(1.2);
+    opacity:.8;
+  }
+}
 
-    .label {
-      color: rgba(255,255,255,.38);
-      text-transform: uppercase;
-      letter-spacing: 5px;
-      font-size: 11px;
-      margin-bottom: 28px;
-    }
+.label{
+  font-size:11px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+  margin-bottom:28px;
+}
 
-    h1 {
-      font-size: clamp(52px, 9vw, 110px);
-      line-height: .95;
-      font-weight: 300;
-      letter-spacing: -5px;
-    }
+h1{
+  font-size:clamp(55px,10vw,115px);
+  line-height:.92;
+  font-weight:300;
+  letter-spacing:-6px;
+}
 
-    h1 em {
-      font-family: Georgia, serif;
-      font-weight: 400;
-    }
+h1 em{
+  font-family:Georgia,serif;
+  font-weight:400;
+}
 
-    h2 {
-      font-size: clamp(38px, 6vw, 72px);
-      line-height: 1;
-      font-weight: 300;
-      letter-spacing: -3px;
-      margin-bottom: 20px;
-    }
+h2{
+  font-size:clamp(38px,7vw,75px);
+  font-weight:300;
+  line-height:1;
+  letter-spacing:-4px;
+  margin-bottom:25px;
+}
 
-    .subtitle {
-      color: rgba(255,255,255,.45);
-      line-height: 1.8;
-      max-width: 550px;
-      margin: 0 auto 40px;
-    }
+.subtitle{
+  max-width:600px;
+  margin:0 auto 38px;
+  color:rgba(255,255,255,.45);
+  line-height:1.8;
+}
 
-    .btn {
-      border: 0;
-      background: #fff;
-      color: #000;
-      border-radius: 100px;
-      padding: 16px 28px;
-      cursor: pointer;
-      transition: .3s;
-    }
+.btn{
+  border:0;
+  border-radius:100px;
+  padding:16px 30px;
+  background:white;
+  color:black;
+  cursor:pointer;
+  transition:.3s;
+}
 
-    .btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      background: #eee;
-    }
+.btn:hover{
+  transform:translateY(-3px) scale(1.03);
+}
 
-    .choices {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      max-width: 700px;
-      margin: 35px auto;
-    }
+.language-grid,
+.choices{
+  max-width:750px;
+  margin:35px auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
 
-    .choice {
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.035);
-      color: #fff;
-      border-radius: 20px;
-      padding: 28px 15px;
-      cursor: pointer;
-      transition: .3s;
-    }
+.language,
+.choice{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.035);
+  color:white;
+  border-radius:20px;
+  padding:27px 15px;
+  cursor:pointer;
+  transition:.3s;
+}
 
-    .choice:hover {
-      border-color: rgba(255,255,255,.45);
-      background: rgba(255,255,255,.08);
-      transform: translateY(-4px);
-    }
+.language:hover,
+.choice:hover{
+  background:rgba(255,255,255,.09);
+  border-color:rgba(255,255,255,.4);
+  transform:translateY(-4px);
+}
 
-    .choice.selected {
-      background: #fff;
-      color: #000;
-      border-color: #fff;
-    }
+.language .flag{
+  display:block;
+  font-size:35px;
+  margin-bottom:13px;
+}
 
-    .emoji {
-      display: block;
-      font-size: 35px;
-      margin-bottom: 12px;
-    }
+.language span:last-child{
+  display:block;
+  margin-top:7px;
+  font-size:11px;
+  color:rgba(255,255,255,.35);
+}
 
-    .choice small {
-      display: block;
-      margin-top: 7px;
-      opacity: .45;
-    }
+.choice{
+  min-height:130px;
+}
 
-    .progress {
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,255,255,.3);
-      font-size: 11px;
-      letter-spacing: 3px;
-    }
+.choice.selected{
+  background:white;
+  color:black;
+  border-color:white;
+}
 
-    .timeline {
-      max-width: 650px;
-      margin: 40px auto;
-      text-align: left;
-    }
+.emoji{
+  display:block;
+  font-size:32px;
+  margin-bottom:12px;
+}
 
-    .event {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      gap: 20px;
-      padding: 22px 0;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
+.progress{
+  position:absolute;
+  top:30px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:11px;
+  letter-spacing:3px;
+  color:rgba(255,255,255,.3);
+}
 
-    .time {
-      color: rgba(255,255,255,.35);
-      font-size: 13px;
-      padding-top: 4px;
-    }
+.question-number{
+  color:rgba(255,255,255,.3);
+  font-size:12px;
+  letter-spacing:3px;
+  margin-bottom:18px;
+}
 
-    .event h3 {
-      font-size: 18px;
-      font-weight: 400;
-      margin-bottom: 6px;
-    }
+.scale{
+  max-width:650px;
+  margin:35px auto;
+  padding:20px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+}
 
-    .event p {
-      color: rgba(255,255,255,.4);
-      font-size: 14px;
-    }
+.scale input{
+  width:100%;
+}
 
-    .final-text {
-      font-family: Georgia, serif;
-      font-size: clamp(42px, 7vw, 85px);
-      line-height: 1.05;
-    }
+.timeline{
+  max-width:650px;
+  margin:40px auto;
+  text-align:left;
+}
 
-    .final-text span {
-      color: rgba(255,255,255,.35);
-    }
+.stat{
+  margin:20px 0;
+  text-align:left;
+}
 
-    .language-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      max-width: 650px;
-      margin: 40px auto;
-    }
+.stat-head{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+  color:rgba(255,255,255,.65);
+  font-size:13px;
+}
 
-    .language {
-      padding: 30px 15px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.035);
-      color: white;
-      cursor: pointer;
-      transition: .3s;
-    }
+.bar{
+  width:100%;
+  height:6px;
+  border-radius:20px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
 
-    .language:hover {
-      transform: translateY(-5px);
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.4);
-    }
+.bar-fill{
+  height:100%;
+  width:0;
+  background:white;
+  transition:1.2s ease;
+}
 
-    .language .flag {
-      display: block;
-      font-size: 38px;
-      margin-bottom: 15px;
-    }
+.result-card{
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.035);
+  padding:35px;
+  border-radius:25px;
+  margin:30px auto;
+  max-width:650px;
+}
 
-    .language strong {
-      font-size: 16px;
-      font-weight: 400;
-    }
+.result-type{
+  font-family:Georgia,serif;
+  font-size:42px;
+  margin-bottom:15px;
+}
 
-    .language span {
-      display: block;
-      margin-top: 7px;
-      font-size: 12px;
-      color: rgba(255,255,255,.35);
-    }
+.result-description{
+  color:rgba(255,255,255,.5);
+  line-height:1.8;
+}
 
-    .fade {
-      animation: fade .8s ease;
-    }
+.event{
+  padding:22px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
 
-    @keyframes fade {
-      from {
-        opacity: 0;
-        transform: translateY(25px);
-      }
+.event h3{
+  font-weight:400;
+  margin-bottom:8px;
+}
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.event p{
+  color:rgba(255,255,255,.4);
+  line-height:1.6;
+}
 
-    body.rtl {
-      direction: rtl;
-    }
+.final{
+  font-family:Georgia,serif;
+  font-size:clamp(40px,7vw,80px);
+  line-height:1.1;
+}
 
-    body.rtl .label {
-      letter-spacing: 1px;
-    }
+.thanks{
+  margin-top:55px;
+  color:rgba(255,255,255,.4);
+  line-height:1.8;
+}
 
-    body.rtl h1,
-    body.rtl h2 {
-      letter-spacing: 0;
-    }
+body.rtl{
+  direction:rtl;
+}
 
-    body.rtl .timeline {
-      text-align: right;
-    }
+body.rtl h1,
+body.rtl h2{
+  letter-spacing:0;
+}
 
-    body.rtl .event {
-      grid-template-columns: 1fr 80px;
-    }
+body.rtl .label{
+  letter-spacing:1px;
+}
 
-    body.rtl .event .time {
-      order: 2;
-    }
+body.rtl .timeline,
+body.rtl .stat{
+  text-align:right;
+}
 
-    body.rtl .event > div:last-child {
-      order: 1;
-    }
+@media(max-width:700px){
 
-    @media(max-width: 650px) {
-      .choices,
-      .language-grid {
-        grid-template-columns: 1fr;
-      }
+  .language-grid,
+  .choices{
+    grid-template-columns:1fr 1fr;
+  }
 
-      h1 {
-        letter-spacing: -3px;
-      }
+  h1{
+    letter-spacing:-3px;
+  }
+}
 
-      .choice,
-      .language {
-        padding: 22px;
-      }
+@media(max-width:450px){
 
-      .event {
-        grid-template-columns: 65px 1fr;
-      }
+  .language-grid,
+  .choices{
+    grid-template-columns:1fr;
+  }
 
-      body.rtl .event {
-        grid-template-columns: 1fr 65px;
-      }
-    }
-  </style>
+  h2{
+    letter-spacing:-2px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- LANGUAGE -->
-  <section class="screen active" id="language">
+<!-- LANGUAGE -->
 
-    <div class="glow"></div>
+<section class="screen active" id="language">
 
-    <div class="content fade">
+<div class="glow"></div>
 
-      <div class="label">One Day Left</div>
+<div class="content">
 
-      <h2>
-        Choose your language
-      </h2>
+<div class="label">One Day Left</div>
 
-      <p class="subtitle">
-        Choose the language you want to experience this journey in.
-      </p>
+<h2 id="languageTitle">Choose your language</h2>
 
-      <div class="language-grid">
+<p class="subtitle" id="languageSubtitle">
+Choose the language for your experience.
+</p>
 
-        <button class="language" onclick="setLanguage('ar')">
-          <span class="flag">🇸🇦</span>
-          <strong>العربية</strong>
-          <span>العربية</span>
-        </button>
+<div class="language-grid">
 
-        <button class="language" onclick="setLanguage('en')">
-          <span class="flag">🇬🇧</span>
-          <strong>English</strong>
-          <span>English</span>
-        </button>
+<button class="language" onclick="chooseLanguage('ar')">
+<span class="flag">🇸🇦</span>
+<strong>العربية</strong>
+<span>العربية</span>
+</button>
 
-        <button class="language" onclick="setLanguage('fr')">
-          <span class="flag">🇫🇷</span>
-          <strong>Français</strong>
-          <span>Français</span>
-        </button>
+<button class="language" onclick="chooseLanguage('ma')">
+<span class="flag">🇲🇦</span>
+<strong>الدارجة المغربية</strong>
+<span>Darija</span>
+</button>
 
-      </div>
+<button class="language" onclick="chooseLanguage('en')">
+<span class="flag">🇬🇧</span>
+<strong>English</strong>
+<span>English</span>
+</button>
 
-    </div>
-  </section>
+<button class="language" onclick="chooseLanguage('fr')">
+<span class="flag">🇫🇷</span>
+<strong>Français</strong>
+<span>Français</span>
+</button>
 
+</div>
 
-  <!-- INTRO -->
-  <section class="screen" id="intro">
+</div>
+</section>
 
-    <div class="glow"></div>
 
-    <div class="content fade">
+<!-- CREDIT -->
 
-      <div class="label" id="introLabel"></div>
+<section class="screen" id="credit">
 
-      <h1 id="introTitle"></h1>
+<div class="glow"></div>
 
-      <p class="subtitle" id="introSubtitle"></p>
+<div class="content">
 
-      <button class="btn" id="startButton" onclick="next('people')"></button>
+<div class="label">One Day Left</div>
 
-    </div>
+<h2 id="creditText"></h2>
 
-  </section>
+</div>
+</section>
 
 
-  <!-- PEOPLE -->
-  <section class="screen" id="people">
+<!-- INTRO -->
 
-    <div class="progress">01 / 03</div>
+<section class="screen" id="intro">
 
-    <div class="content fade">
+<div class="glow"></div>
 
-      <div class="label" id="peopleLabel"></div>
+<div class="content">
 
-      <h2 id="peopleTitle"></h2>
+<div class="label" id="introLabel"></div>
 
-      <p class="subtitle" id="peopleSubtitle"></p>
+<h1 id="introTitle"></h1>
 
-      <div class="choices">
+<p class="subtitle" id="introSubtitle"></p>
 
-        <button class="choice" onclick="selectChoice(this, 'person', 'love')">
-          <span class="emoji">❤️</span>
-          <span data-text="love"></span>
-        </button>
+<button class="btn" id="startBtn" onclick="startTest()"></button>
 
-        <button class="choice" onclick="selectChoice(this, 'person', 'family')">
-          <span class="emoji">🏠</span>
-          <span data-text="family"></span>
-        </button>
+</div>
+</section>
 
-        <button class="choice" onclick="selectChoice(this, 'person', 'friend')">
-          <span class="emoji">🫂</span>
-          <span data-text="friend"></span>
-        </button>
 
-      </div>
+<!-- QUESTION -->
 
-      <button class="btn" id="peopleButton" onclick="goNext('person', 'place')"></button>
+<section class="screen" id="question">
 
-    </div>
+<div class="content">
 
-  </section>
+<div class="question-number" id="questionNumber"></div>
 
+<h2 id="questionTitle"></h2>
 
-  <!-- PLACE -->
-  <section class="screen" id="place">
+<p class="subtitle" id="questionSubtitle"></p>
 
-    <div class="progress">02 / 03</div>
+<div class="choices" id="questionChoices"></div>
 
-    <div class="content fade">
+<button class="btn" id="nextBtn" onclick="nextQuestion()"></button>
 
-      <div class="label" id="placeLabel"></div>
+</div>
+</section>
 
-      <h2 id="placeTitle"></h2>
 
-      <p class="subtitle" id="placeSubtitle"></p>
+<!-- RESULT -->
 
-      <div class="choices">
+<section class="screen" id="result">
 
-        <button class="choice" onclick="selectChoice(this, 'place', 'ocean')">
-          <span class="emoji">🌊</span>
-          <span data-text="ocean"></span>
-          <small data-text="oceanSmall"></small>
-        </button>
+<div class="content">
 
-        <button class="choice" onclick="selectChoice(this, 'place', 'city')">
-          <span class="emoji">🌆</span>
-          <span data-text="city"></span>
-          <small data-text="citySmall"></small>
-        </button>
+<div class="label" id="resultLabel"></div>
 
-        <button class="choice" onclick="selectChoice(this, 'place', 'home')">
-          <span class="emoji">🏡</span>
-          <span data-text="home"></span>
-          <small data-text="homeSmall"></small>
-        </button>
+<h2 id="resultTitle"></h2>
 
-      </div>
+<div class="result-card">
 
-      <button class="btn" id="placeButton" onclick="goNext('place', 'activity')"></button>
+<div class="result-type" id="resultType"></div>
 
-    </div>
+<p class="result-description" id="resultDescription"></p>
 
-  </section>
+</div>
 
+<div id="stats"></div>
 
-  <!-- ACTIVITY -->
-  <section class="screen" id="activity">
+<p class="subtitle" id="resultMessage"></p>
 
-    <div class="progress">03 / 03</div>
+<button class="btn" id="finishBtn" onclick="showFinal()"></button>
 
-    <div class="content fade">
+</div>
+</section>
 
-      <div class="label" id="activityLabel"></div>
 
-      <h2 id="activityTitle"></h2>
+<!-- FINAL -->
 
-      <p class="subtitle" id="activitySubtitle"></p>
+<section class="screen" id="final">
 
-      <div class="choices">
+<div class="glow"></div>
 
-        <button class="choice" onclick="selectChoice(this, 'activity', 'adventure')">
-          <span class="emoji">🚗</span>
-          <span data-text="adventure"></span>
-        </button>
+<div class="content">
 
-        <button class="choice" onclick="selectChoice(this, 'activity', 'sunset')">
-          <span class="emoji">🌅</span>
-          <span data-text="sunset"></span>
-        </button>
+<div class="label" id="finalLabel"></div>
 
-        <button class="choice" onclick="selectChoice(this, 'activity', 'nothing')">
-          <span class="emoji">✨</span>
-          <span data-text="nothing"></span>
-        </button>
+<div class="final" id="finalText"></div>
 
-      </div>
+<p class="subtitle" id="finalSubtitle"></p>
 
-      <button class="btn" id="createButton" onclick="buildDay()"></button>
+<div class="thanks" id="thanks"></div>
 
-    </div>
+<br>
 
-  </section>
+<button class="btn" id="restartBtn" onclick="restart()"></button>
 
+</div>
+</section>
 
-  <!-- RESULT -->
-  <section class="screen" id="result">
 
-    <div class="content fade">
+<script>
 
-      <div class="label" id="resultLabel"></div>
+let language = "en";
 
-      <h2 id="resultTitle"></h2>
+let currentQuestion = 0;
 
-      <p class="subtitle" id="resultSubtitle"></p>
+let answers = {};
 
-      <div class="timeline" id="timeline"></div>
+let stats = {
+  empathy:0,
+  creativity:0,
+  curiosity:0,
+  logic:0,
+  courage:0,
+  selfAwareness:0,
+  connection:0
+};
 
-      <button class="btn" id="resultButton" onclick="next('final')"></button>
 
-    </div>
+const T = {
 
-  </section>
+en:{
 
+credit:"Made by Karam Al-Harsh",
 
-  <!-- FINAL -->
-  <section class="screen" id="final">
+introLabel:"ONE DAY LEFT",
 
-    <div class="glow"></div>
+introTitle:"What if today<br>was your <em>last?</em>",
 
-    <div class="content fade">
+introSubtitle:
+"Forget tomorrow.<br>Forget yesterday.<br>For a few minutes, just answer honestly.",
 
-      <div class="label" id="finalLabel"></div>
+start:"Begin the experience →",
 
-      <div class="final-text">
-        <span id="finalMain"></span>
-        <br><br>
-        <span id="finalSecond"></span>
-      </div>
+question:"Question",
 
-      <p class="subtitle" id="finalSubtitle"></p>
+next:"Continue →",
 
-      <button class="btn" id="restartButton" onclick="restart()"></button>
+finish:"Reveal who you are →",
 
-    </div>
+resultLabel:"YOUR RESULT",
 
-  </section>
+resultTitle:"This is what<br>your answers reveal.",
 
+finalLabel:"ONE LAST THOUGHT",
 
-  <script>
+finalText:"Maybe today<br>isn't your last day.",
 
-    let language = "en";
+finalSubtitle:
+"So why are you waiting to live it?",
 
-    const data = {
-      person: "",
-      place: "",
-      activity: ""
+thanks:
+"Thank you for visiting my website.<br>I hope you enjoyed it. ❤️",
+
+restart:"Experience it again →",
+
+choose:"Choose the answer that feels most like you.",
+
+stats:{
+
+empathy:"Empathy",
+
+creativity:"Creativity",
+
+curiosity:"Curiosity",
+
+logic:"Thinking",
+
+courage:"Courage",
+
+selfAwareness:"Self-awareness",
+
+connection:"Connection"
+
+},
+
+types:{
+
+dreamer:{
+name:"THE DREAMER",
+description:
+"You see meaning in moments that other people might overlook. You value experiences, emotions and memories more than possessions."
+},
+
+explorer:{
+name:"THE EXPLORER",
+description:
+"You are driven by curiosity. The unknown doesn't scare you as much as the idea of living without discovering what is beyond the familiar."
+},
+
+thinker:{
+name:"THE DEEP THINKER",
+description:
+"You rarely accept things at surface level. You analyze, question and search for meaning before making important decisions."
+},
+
+guardian:{
+name:"THE GUARDIAN",
+description:
+"People matter deeply to you. You naturally think about the people around you and often put their feelings before your own."
+},
+
+creator:{
+name:"THE CREATOR",
+description:
+"You imagine possibilities that don't exist yet. You need freedom to create, experiment and express yourself."
+}
+
+}
+
+},
+
+ar:{
+
+credit:"صُنع بواسطة كرم الهرش",
+
+introLabel:"يوم واحد متبقٍ",
+
+introTitle:"ماذا لو كان اليوم<br>هو <em>يومك الأخير؟</em>",
+
+introSubtitle:
+"انسَ الغد.<br>انسَ الأمس.<br>ولعدة دقائق، أجب بصدق.",
+
+start:"ابدأ التجربة ←",
+
+question:"السؤال",
+
+next:"متابعة ←",
+
+finish:"اكتشف من أنت ←",
+
+resultLabel:"نتيجتك",
+
+resultTitle:"هذا ما<br>تكشفه إجاباتك.",
+
+finalLabel:"فكرة أخيرة",
+
+finalText:"ربما اليوم<br>ليس يومك الأخير.",
+
+finalSubtitle:
+"فلماذا تنتظر حتى تبدأ بالعيش؟",
+
+thanks:
+"شكرًا على زيارتكم لموقعي، وأتمنى أن يعجبكم. ❤️",
+
+restart:"جرّب التجربة مرة أخرى ←",
+
+choose:"اختر الإجابة التي تشعر أنها تشبهك أكثر.",
+
+stats:{
+empathy:"التعاطف",
+creativity:"الإبداع",
+curiosity:"الفضول",
+logic:"التفكير",
+courage:"الجرأة",
+selfAwareness:"الوعي بالذات",
+connection:"العلاقات"
+},
+
+types:{
+
+dreamer:{
+name:"الحالم",
+description:
+"ترى معنى في لحظات قد لا يلاحظها الآخرون. تقدر التجارب والمشاعر والذكريات أكثر من الأشياء."
+},
+
+explorer:{
+name:"المستكشف",
+description:
+"الفضول يحركك. المجهول لا يخيفك بقدر ما تخيفك فكرة أن تعيش دون اكتشاف ما يوجد خارج المألوف."
+},
+
+thinker:{
+name:"المفكر العميق",
+description:
+"نادراً ما تقبل الأشياء كما تبدو على السطح. تحلل وتسأل وتبحث عن المعنى قبل اتخاذ القرارات المهمة."
+},
+
+guardian:{
+name:"الحامي",
+description:
+"الناس يعنيون لك الكثير. غالبًا تفكر في مشاعر من حولك وقد تضعهم أحيانًا قبل نفسك."
+},
+
+creator:{
+name:"المبدع",
+description:
+"تتخيل أشياء غير موجودة بعد. تحتاج إلى الحرية حتى تخلق وتجرب وتعبر عن نفسك."
+}
+
+}
+
+},
+
+ma:{
+
+credit:"تصايب من طرف كرم الهرش",
+
+introLabel:"نهار واحد باقي",
+
+introTitle:"إيلا كان اليوم<br>هو <em>آخر نهار ليك؟</em>",
+
+introSubtitle:
+"نسا غدا.<br>نسا البارح.<br>ولهاد الدقايق، جاوب بصدق.",
+
+start:"بدا التجربة ←",
+
+question:"السؤال",
+
+next:"كمل ←",
+
+finish:"عرف شكون نتا ←",
+
+resultLabel:"النتيجة ديالك",
+
+resultTitle:"هادي هي الحاجة اللي<br>كتبيّنها الأجوبة ديالك.",
+
+finalLabel:"فكرة أخيرة",
+
+finalText:"يمكن اليوم<br>ماشي آخر نهار ليك.",
+
+finalSubtitle:
+"إيوا علاش باقي كتسنى باش تعيش؟",
+
+thanks:
+"شكراً على الزيارة ديالكم لموقعي، ونتمنى يعجبكم. ❤️",
+
+restart:"عاود التجربة ←",
+
+choose:"ختار الجواب اللي كتحس براسك قريب ليه.",
+
+stats:{
+empathy:"التعاطف",
+creativity:"الإبداع",
+curiosity:"الفضول",
+logic:"طريقة التفكير",
+courage:"الجرأة",
+selfAwareness:"معرفة الذات",
+connection:"العلاقات"
+},
+
+types:{
+
+dreamer:{
+name:"الحالم",
+description:
+"كتشوف المعنى فحوايج ولحظات اللي ممكن الناس الآخرين ما ينتبهوش ليها. كتقدر التجارب والمشاعر والذكريات بزاف."
+},
+
+explorer:{
+name:"المستكشف",
+description:
+"الفضول هو اللي كيدفعك. المجهول ما كيخوفكش قد ما كتخاف تعيش بلا ما تكتاشف الجديد."
+},
+
+thinker:{
+name:"المفكر العميق",
+description:
+"ما كتقبلش الأمور غير كيفما باينة. كتفكر وكتحلل وكتقلب على المعنى قبل القرارات المهمة."
+},
+
+guardian:{
+name:"الحامي",
+description:
+"الناس اللي قريبين ليك مهمين بزاف عندك. كتفكر فمشاعر الآخرين وممكن تحطهم قبل راسك."
+},
+
+creator:{
+name:"المبدع",
+description:
+"عندك خيال وكتشوف إمكانيات مازال ما كايناش. الحرية مهمة عندك باش تخلق وتجرب وتعبر على راسك."
+}
+
+}
+
+},
+
+fr:{
+
+credit:"Créé par Karam Al-Harsh",
+
+introLabel:"UN JOUR RESTANT",
+
+introTitle:"Et si aujourd'hui<br>était votre <em>dernier jour ?</em>",
+
+introSubtitle:
+"Oubliez demain.<br>Oubliez hier.<br>Pendant quelques minutes, répondez honnêtement.",
+
+start:"Commencer l'expérience →",
+
+question:"Question",
+
+next:"Continuer →",
+
+finish:"Découvrir qui vous êtes →",
+
+resultLabel:"VOTRE RÉSULTAT",
+
+resultTitle:"Voici ce que<br>vos réponses révèlent.",
+
+finalLabel:"UNE DERNIÈRE PENSÉE",
+
+finalText:"Peut-être qu'aujourd'hui<br>n'est pas votre dernier jour.",
+
+finalSubtitle:
+"Alors pourquoi attendre pour vivre ?",
+
+thanks:
+"Merci d’avoir visité mon site. J’espère qu’il vous a plu. ❤️",
+
+restart:"Recommencer l'expérience →",
+
+choose:"Choisissez la réponse qui vous ressemble le plus.",
+
+stats:{
+empathy:"Empathie",
+creativity:"Créativité",
+curiosity:"Curiosité",
+logic:"Réflexion",
+courage:"Courage",
+selfAwareness:"Conscience de soi",
+connection:"Relations"
+},
+
+types:{
+
+dreamer:{
+name:"LE RÊVEUR",
+description:
+"Vous trouvez du sens dans des moments que les autres peuvent ne pas remarquer. Vous valorisez les expériences, les émotions et les souvenirs."
+},
+
+explorer:{
+name:"L'EXPLORATEUR",
+description:
+"Votre curiosité vous guide. L'inconnu vous fait moins peur que l'idée de vivre sans découvrir ce qui existe au-delà du familier."
+},
+
+thinker:{
+name:"LE PENSEUR PROFOND",
+description:
+"Vous acceptez rarement les choses en surface. Vous analysez, questionnez et cherchez un sens avant de prendre des décisions importantes."
+},
+
+guardian:{
+name:"LE PROTECTEUR",
+description:
+"Les autres comptent énormément pour vous. Vous pensez naturellement aux personnes autour de vous et à leurs émotions."
+},
+
+creator:{
+name:"LE CRÉATEUR",
+description:
+"Vous imaginez des possibilités qui n'existent pas encore. Vous avez besoin de liberté pour créer, expérimenter et vous exprimer."
+}
+
+}
+
+}
+
+};
+
+
+/*
+QUESTION BANK
+
+Chaque réponse ajoute des points à différents traits.
+*/
+
+const questions = [
+
+{
+text:{
+en:"You wake up knowing you have only 24 hours left. What do you do first?",
+ar:"استيقظت وأنت تعرف أن أمامك 24 ساعة فقط. ما أول شيء ستفعله؟",
+ma:"فقت وعارف بلي ما بقا ليك غير 24 ساعة. شنو أول حاجة غادي تدير؟",
+fr:"Vous vous réveillez en sachant qu'il ne vous reste que 24 heures. Que faites-vous en premier ?"
+},
+options:[
+["Call someone you love","اتصل بشخص تحبه","عيط لشي واحد كتحب","Appeler quelqu'un que vous aimez",{connection:4,empathy:3}],
+["Leave and explore","اخرج واكتشف مكانًا جديدًا","خرج واكتاشف بلاصة جديدة",{fr:"Partir explorer",}, {curiosity:5,courage:4}],
+["Stay alone and think","ابقَ وحدك وفكر","بقا بوحدك وفكر",{},{selfAwareness:5,logic:3}],
+["Create something","اصنع شيئًا","صايب شي حاجة",{},{creativity:5,selfAwareness:2}]
+]
+},
+
+{
+text:{
+en:"Someone hurt you years ago and sincerely apologized. What would you do?",
+ar:"شخص جرحك منذ سنوات واعتذر لك بصدق. ماذا ستفعل؟",
+ma:"شي واحد جرحك من سنين واعتذر ليك بصدق. شنو غادي تدير؟",
+fr:"Quelqu'un vous a blessé il y a des années et s'est sincèrement excusé. Que faites-vous ?"
+},
+options:[
+["Forgive them","أسامحه","نسامحو","Lui pardonner",{empathy:5,connection:3}],
+["Ask what happened","أسأله عما حدث","نسولو شنو وقع","Demander ce qui s'est passé",{logic:4,selfAwareness:3}],
+["Keep your distance","أبقى بعيدًا","نبقى بعيد","Garder mes distances",{selfAwareness:4,courage:2}],
+["Give them another chance","أعطيه فرصة أخرى","نعطيه فرصة أخرى","Lui donner une autre chance",{connection:5,empathy:3}]
+]
+},
+
+{
+text:{
+en:"You can keep one memory forever. Which one?",
+ar:"يمكنك الاحتفاظ بذكرى واحدة إلى الأبد. أي ذكرى تختار؟",
+ma:"تقدر تخلي غير ذكرى وحدة معاك ديما. شنو غادي تختار؟",
+fr:"Vous pouvez garder un seul souvenir pour toujours. Lequel choisissez-vous ?"
+},
+options:[
+["A family moment","لحظة مع العائلة","لحظة مع العائلة","Un moment en famille",{connection:5,empathy:3}],
+["An adventure","مغامرة","مغامرة","Une aventure",{curiosity:4,courage:4}],
+["A quiet moment alone","لحظة هادئة وحدي","لحظة هانية بوحدي","Un moment calme seul",{selfAwareness:5}],
+["Something I created","شيء صنعته","شي حاجة صايبتها","Quelque chose que j'ai créé",{creativity:5}]
+]
+},
+
+{
+text:{
+en:"You receive unlimited money, but you can only spend it on one thing.",
+ar:"حصلت على مال بلا حدود، لكن يمكنك إنفاقه على شيء واحد فقط.",
+ma:"عندك فلوس بلا حدود، ولكن تقدر تصرفهم غير على حاجة وحدة.",
+fr:"Vous recevez de l'argent illimité, mais vous ne pouvez le dépenser que pour une seule chose."
+},
+options:[
+["Travel the world","السفر حول العالم","نسافر فالعالم كامل","Voyager autour du monde",{curiosity:5,courage:3}],
+["Help people I love","مساعدة من أحب","نعاون الناس اللي كنحب","Aider les personnes que j'aime",{empathy:5,connection:5}],
+["Build something meaningful","بناء شيء له معنى","نبني شي حاجة عندها معنى","Construire quelque chose de significatif",{creativity:5,logic:2}],
+["Keep it for security","أحتفظ به للأمان","نخليه للأمان","Le garder pour la sécurité",{logic:5,selfAwareness:2}]
+]
+},
+
+{
+text:{
+en:"What scares you more?",
+ar:"ما الشيء الذي يخيفك أكثر؟",
+ma:"شنو الحاجة اللي كتخوفك كثر؟",
+fr:"Qu'est-ce qui vous fait le plus peur ?"
+},
+options:[
+["Being forgotten","أن يُنسى وجودي","نولي منسي","Être oublié",{connection:5,empathy:3}],
+["Never discovering my potential","ألا أكتشف إمكانياتي","ما نكتاشفش شنو نقدر ندير","Ne jamais découvrir mon potentiel",{curiosity:5,creativity:3}],
+["Making the wrong decision","اتخاذ القرار الخاطئ","ناخد قرار غالط","Prendre la mauvaise décision",{logic:5,selfAwareness:3}],
+["Living someone else's life","أن أعيش حياة شخص آخر","نعيش حياة ماشي ديالي","Vivre la vie de quelqu'un d'autre",{courage:5,selfAwareness:4}]
+]
+},
+
+{
+text:{
+en:"If someone could understand one thing about you without you explaining it, what would it be?",
+ar:"لو استطاع شخص أن يفهم شيئًا واحدًا عنك دون أن تشرحه، ماذا تتمنى أن يفهم؟",
+ma:"إيلا شي واحد قدر يفهم عليك حاجة وحدة بلا ما تشرحها، شنو بغيتي يفهم؟",
+fr:"Si quelqu'un pouvait comprendre une seule chose sur vous sans explication, que voudriez-vous qu'il comprenne ?"
+},
+options:[
+["What I feel","ما أشعر به","شنو كنحس","Ce que je ressens",{empathy:5,selfAwareness:4}],
+["What I dream about","ما أحلم به","شنو كنحلم به","Mes rêves",{creativity:5,curiosity:3}],
+["Why I make my choices","لماذا أتخذ قراراتي","علاش كندير اختياراتي","Pourquoi je fais mes choix",{logic:5,selfAwareness:4}],
+["How much people mean to me","كم يعني لي الناس","شحال الناس مهمين عندي","À quel point les gens comptent pour moi",{connection:5,empathy:5}]
+]
+},
+
+{
+text:{
+en:"At sunset, you realize you spent years doing what others expected. What do you do?",
+ar:"عند الغروب، أدركت أنك قضيت سنوات تفعل ما يتوقعه الآخرون منك. ماذا تفعل؟",
+ma:"مع الغروب فهمتي بلي دوزتي سنين كتدير غير اللي كيتسناو منك الناس. شنو غادي تدير؟",
+fr:"Au coucher du soleil, vous réalisez avoir passé des années à faire ce que les autres attendaient de vous. Que faites-vous ?"
+},
+options:[
+["Change everything","أغير كل شيء","نبدل كلشي","Tout changer",{courage:5,creativity:3}],
+["Talk to someone","أتحدث مع شخص","نهضر مع شي واحد","Parler à quelqu'un",{connection:5,empathy:4}],
+["Think about where I went wrong","أفكر أين أخطأت","نفكر فين غلطت","Réfléchir à mes erreurs",{selfAwareness:5,logic:4}],
+["Start something new","أبدأ شيئًا جديدًا","نبدا شي حاجة جديدة","Commencer quelque chose de nouveau",{curiosity:5,courage:4}]
+]
+},
+
+{
+text:{
+en:"Which would you choose for your final evening?",
+ar:"ماذا تختار لليلتك الأخيرة؟",
+ma:"شنو غادي تختار لآخر ليلة؟",
+fr:"Que choisiriez-vous pour votre dernière soirée ?"
+},
+options:[
+["Dinner with loved ones","عشاء مع من أحب","عشا مع الناس اللي كنحب","Un dîner avec ceux que j'aime",{connection:5,empathy:4}],
+["Watching the stars alone","مشاهدة النجوم وحدي","نتفرج فالنجوم بوحدي","Regarder les étoiles seul",{selfAwareness:5,curiosity:3}],
+["A spontaneous adventure","مغامرة عفوية","مغامرة بلا تخطيط","Une aventure spontanée",{courage:5,curiosity:5}],
+["Creating something to leave behind","صناعة شيء يبقى بعدي","نصايب شي حاجة تبقى من بعدي","Créer quelque chose à laisser derrière moi",{creativity:5,connection:3}]
+]
+},
+
+{
+text:{
+en:"What would you regret most?",
+ar:"ما الشيء الذي ستندم عليه أكثر؟",
+ma:"شنو الحاجة اللي غادي تندم عليها كثر؟",
+fr:"Que regretteriez-vous le plus ?"
+},
+options:[
+["Not saying 'I love you'","عدم قول أحبك","ما قلتش كنحبك","Ne pas avoir dit « je t'aime »",{connection:5,empathy:5}],
+["Not taking a chance","عدم المجازفة","ما جربتش","Ne pas avoir tenté ma chance",{courage:5,curiosity:4}],
+["Not becoming who I wanted","عدم أن أصبح الشخص الذي أردته","ما وليتش الشخص اللي بغيت","Ne pas être devenu qui je voulais être",{selfAwareness:5,creativity:3}],
+["Making choices without thinking","اتخاذ قرارات دون تفكير","خديت قرارات بلا تفكير","Avoir pris des décisions sans réfléchir",{logic:5,selfAwareness:4}]
+]
+},
+
+{
+text:{
+en:"You have one hour completely alone. What do you naturally do?",
+ar:"لديك ساعة كاملة وحدك. ماذا تفعل بشكل طبيعي؟",
+ma:"عندك ساعة كاملة بوحدك. شنو غادي تدير بلا ما تفكر بزاف؟",
+fr:"Vous avez une heure complètement seul. Que faites-vous naturellement ?"
+},
+options:[
+["Think about my life","أفكر في حياتي","نفكر فحياتي","Réfléchir à ma vie",{selfAwareness:5,logic:3}],
+["Make something","أصنع شيئًا","نصايب شي حاجة","Créer quelque chose",{creativity:5}],
+["Explore something new","أكتشف شيئًا جديدًا","نكتاشف شي حاجة جديدة","Explorer quelque chose de nouveau",{curiosity:5}],
+["Message someone","أرسل رسالة لشخص","نصيفط ميساج لشي واحد","Écrire à quelqu'un",{connection:5}]
+]
+},
+
+{
+text:{
+en:"If you could hear one sentence from someone you lost or drifted away from, what would you want them to say?",
+ar:"لو استطعت سماع جملة واحدة من شخص فقدته أو ابتعد عنك، ماذا تتمنى أن يقول؟",
+ma:"إيلا قدرت تسمع جملة وحدة من شي واحد فقدتيه ولا بعد عليك، شنو بغيتي يقول ليك؟",
+fr:"Si vous pouviez entendre une seule phrase d'une personne que vous avez perdue ou dont vous vous êtes éloigné, que voudriez-vous entendre ?"
+},
+options:[
+["I never stopped caring","لم أتوقف عن الاهتمام بك","عمري حبست نهتم بيك","Je n'ai jamais cessé de tenir à toi",{connection:5,empathy:5}],
+["I'm proud of you","أنا فخور بك","أنا فخور بيك","Je suis fier de toi",{connection:4,selfAwareness:4}],
+["I'm sorry","أنا آسف","سمح ليا","Je suis désolé",{empathy:5,selfAwareness:4}],
+["You were enough","كنت كافيًا كما أنت","كنت كافي كيفما نتا","Tu étais suffisant tel que tu es",{selfAwareness:5,empathy:5}]
+]
+},
+
+{
+text:{
+en:"If tomorrow everyone forgot who you were, what would you want them to remember about you?",
+ar:"لو نسي الجميع غدًا من أنت، ماذا تتمنى أن يتذكروا عنك؟",
+ma:"إيلا غدا الناس كاملين نساو شكون نتا، شنو بغيتي يبقى معروف عليك؟",
+fr:"Si demain tout le monde oubliait qui vous êtes, que voudriez-vous qu'ils retiennent de vous ?"
+},
+options:[
+["I made people feel loved","جعلت الناس يشعرون بالحب","خليت الناس يحسو بالحب","J'ai fait sentir aux gens qu'ils étaient aimés",{empathy:5,connection:5}],
+["I created something","أنني صنعت شيئًا","صايبت شي حاجة","J'ai créé quelque chose",{creativity:5}],
+["I lived freely","أنني عشت بحرية","عشت بحريتي","J'ai vécu librement",{courage:5,curiosity:4}],
+["I understood things deeply","أنني فهمت الأشياء بعمق","كنت كنفهم الأمور بعمق","J'ai compris les choses profondément",{logic:5,selfAwareness:5}]
+]
+},
+
+{
+text:{
+en:"You can ask your future self one question. What do you ask?",
+ar:"يمكنك طرح سؤال واحد على نفسك في المستقبل. ماذا تسأل؟",
+ma:"تقدر تسول راسك فالمستقبل غير سؤال واحد. شنو غادي تسول؟",
+fr:"Vous pouvez poser une question à votre futur vous. Que demandez-vous ?"
+},
+options:[
+["Are we happy?","هل نحن سعداء؟","واش حنا فرحانين؟","Sommes-nous heureux ?",{selfAwareness:5,empathy:3}],
+["Did we take the chances?","هل اغتنمنا الفرص؟","واش استغلينا الفرص؟","Avons-nous saisi les occasions ?",{courage:5,curiosity:4}],
+["Did we become successful?","هل نجحنا؟","واش نجحنا؟","Avons-nous réussi ?",{logic:4,selfAwareness:3}],
+["Did we make a difference?","هل تركنا أثرًا؟","واش خلينا أثر؟","Avons-nous fait une différence ?",{connection:5,creativity:4}]
+]
+},
+
+{
+text:{
+en:"What do you hide from most people?",
+ar:"ما الشيء الذي تخفيه عن معظم الناس؟",
+ma:"شنو الحاجة اللي كتخبيها على أغلب الناس؟",
+fr:"Que cachez-vous à la plupart des gens ?"
+},
+options:[
+["How sensitive I am","مدى حساسيتي","شحال أنا حساس","À quel point je suis sensible",{empathy:5,selfAwareness:5}],
+["How ambitious I am","طموحي الحقيقي","شحال أنا طموح","À quel point je suis ambitieux",{courage:4,creativity:4}],
+["How much I overthink","كم أفكر أكثر من اللازم","شحال كنخمم بزاف","À quel point je réfléchis trop",{logic:5,selfAwareness:5}],
+["How much I want to explore","رغبتي في اكتشاف العالم","شحال باغي نكتاشف العالم","À quel point je veux explorer",{curiosity:5,courage:3}]
+]
+}
+
+];
+
+
+function getText(obj){
+  return obj[language] || obj.en;
+}
+
+
+function chooseLanguage(lang){
+
+  language = lang;
+
+  localStorage.setItem("oneDayLeftLanguage",lang);
+
+  document.documentElement.lang = lang;
+
+  document.body.classList.toggle("rtl",lang==="ar" || lang==="ma");
+
+  const t=T[lang];
+
+  document.getElementById("creditText").innerHTML=t.credit;
+
+  show("credit");
+
+  setTimeout(()=>{
+    show("intro");
+    updateIntro();
+  },2300);
+
+}
+
+
+function updateIntro(){
+
+  const t=T[language];
+
+  document.getElementById("introLabel").innerHTML=t.introLabel;
+
+  document.getElementById("introTitle").innerHTML=t.introTitle;
+
+  document.getElementById("introSubtitle").innerHTML=t.introSubtitle;
+
+  document.getElementById("startBtn").innerHTML=t.start;
+
+}
+
+
+function show(id){
+
+  document.querySelectorAll(".screen").forEach(s=>{
+    s.classList.remove("active");
+  });
+
+  const target=document.getElementById(id);
+
+  target.classList.add("active");
+
+  const content=target.querySelector(".content");
+
+  if(content){
+
+    content.style.animation="none";
+
+    void content.offsetWidth;
+
+    content.style.animation="appear .8s ease";
+
+  }
+
+  window.scrollTo(0,0);
+
+}
+
+
+function startTest(){
+
+  currentQuestion=0;
+
+  answers={};
+
+  stats={
+    empathy:0,
+    creativity:0,
+    curiosity:0,
+    logic:0,
+    courage:0,
+    selfAwareness:0,
+    connection:0
+  };
+
+  /*
+  اختيار 10 إلى 15 سؤال.
+  */
+
+  const count=10+Math.floor(Math.random()*6);
+
+  window.testQuestions=[...questions]
+    .sort(()=>Math.random()-.5)
+    .slice(0,count);
+
+  renderQuestion();
+
+}
+
+
+function renderQuestion(){
+
+  const q=window.testQuestions[currentQuestion];
+
+  const t=T[language];
+
+  document.getElementById("questionNumber").innerHTML=
+    `${t.question} ${currentQuestion+1} / ${window.testQuestions.length}`;
+
+  document.getElementById("questionTitle").innerHTML=
+    getText(q.text);
+
+  document.getElementById("questionSubtitle").innerHTML=
+    t.choose;
+
+  const container=document.getElementById("questionChoices");
+
+  container.innerHTML="";
+
+  q.options.forEach((option,index)=>{
+
+    const button=document.createElement("button");
+
+    button.className="choice";
+
+    button.innerHTML=getOptionText(option);
+
+    button.onclick=()=>{
+
+      container.querySelectorAll(".choice").forEach(b=>{
+        b.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+
+      answers[currentQuestion]=option[4];
+
     };
 
+    container.appendChild(button);
 
-    const translations = {
+  });
 
-      en: {
+  document.getElementById("nextBtn").innerHTML=
+    currentQuestion===window.testQuestions.length-1
+      ? t.finish
+      : t.next;
 
-        introLabel: "Imagine this",
+  show("question");
 
-        introTitle:
-          "What if today<br>was your <em>last?</em>",
+}
 
-        introSubtitle:
-          "Forget tomorrow.<br>Forget yesterday.<br>You only have today.",
 
-        start:
-          "Begin the experience →",
+function getOptionText(option){
 
-        peopleLabel:
-          "The people",
+  if(language==="en") return option[0];
 
-        peopleTitle:
-          "Who would you<br>spend it with?",
+  if(language==="ar") return option[1];
 
-        peopleSubtitle:
-          "Choose the people who matter most.",
+  if(language==="ma") return option[2];
 
-        love:
-          "Someone I love",
+  if(language==="fr") return option[3];
 
-        family:
-          "My family",
+  return option[0];
 
-        friend:
-          "My closest friend",
+}
 
-        continue:
-          "Continue →",
 
-        placeLabel:
-          "The place",
+function nextQuestion(){
 
-        placeTitle:
-          "Where would<br>you go?",
+  const answer=answers[currentQuestion];
 
-        placeSubtitle:
-          "If you could wake up anywhere tomorrow...",
+  if(!answer){
 
-        ocean:
-          "The ocean",
-
-        oceanSmall:
-          "Somewhere peaceful",
-
-        city:
-          "A new city",
-
-        citySmall:
-          "Somewhere unknown",
-
-        home:
-          "Home",
-
-        homeSmall:
-          "Where I belong",
-
-        activityLabel:
-          "The moment",
-
-        activityTitle:
-          "What would<br>you do?",
-
-        activitySubtitle:
-          "Forget what you're supposed to do.<br>Choose what you actually want.",
-
-        adventure:
-          "Go on an adventure",
-
-        sunset:
-          "Watch the sunset",
-
-        nothing:
-          "Do absolutely nothing",
-
-        create:
-          "Create my day →",
-
-        resultLabel:
-          "Your last day",
-
-        resultTitle:
-          "Your perfect<br>day.",
-
-        resultSubtitle:
-          "A day built around what matters to you.",
-
-        resultContinue:
-          "Continue →",
-
-        finalLabel:
-          "One more thing",
-
-        finalMain:
-          "But here's the thing...",
-
-        finalSecond:
-          "Today isn't your last day.",
-
-        finalSubtitle:
-          "So why are you waiting?",
-
-        restart:
-          "Live today →",
-
-        wake:
-          "Wake up",
-
-        wakeText:
-          "Today matters.",
-
-        sunsetEvent:
-          "Sunset",
-
-        sunsetText:
-          "Stay a little longer.",
-
-        finalEvent:
-          "One last thought",
-
-        finalEventText:
-          "What would you change tomorrow?",
-
-        selectedPerson:
-          "The people you chose",
-
-        selectedPersonText:
-          "The people who matter are waiting.",
-
-        selectedPlace:
-          "Your place",
-
-        selectedPlaceText:
-          "Go somewhere that feels right.",
-
-        selectedActivity:
-          "Your moment",
-
-        selectedActivityText:
-          "No schedules. No expectations."
-
-      },
-
-
-      ar: {
-
-        introLabel:
-          "تخيّل هذا",
-
-        introTitle:
-          "ماذا لو كان اليوم<br>هو <em>يومك الأخير؟</em>",
-
-        introSubtitle:
-          "انسَ الغد.<br>انسَ الأمس.<br>ليس لديك سوى اليوم.",
-
-        start:
-          "ابدأ التجربة ←",
-
-        peopleLabel:
-          "الأشخاص",
-
-        peopleTitle:
-          "مع من ستقضي<br>يومك الأخير؟",
-
-        peopleSubtitle:
-          "اختر الأشخاص الذين يعني وجودهم الكثير لك.",
-
-        love:
-          "شخص أحبه",
-
-        family:
-          "عائلتي",
-
-        friend:
-          "أقرب صديق لي",
-
-        continue:
-          "متابعة ←",
-
-        placeLabel:
-          "المكان",
-
-        placeTitle:
-          "إلى أين<br>ستذهب؟",
-
-        placeSubtitle:
-          "لو كان بإمكانك الاستيقاظ غدًا في أي مكان...",
-
-        ocean:
-          "البحر",
-
-        oceanSmall:
-          "مكان هادئ",
-
-        city:
-          "مدينة جديدة",
-
-        citySmall:
-          "مكان لم تعرفه من قبل",
-
-        home:
-          "المنزل",
-
-        homeSmall:
-          "المكان الذي أنتمي إليه",
-
-        activityLabel:
-          "اللحظة",
-
-        activityTitle:
-          "ماذا<br>ستفعل؟",
-
-        activitySubtitle:
-          "انسَ ما يُفترض أن تفعله.<br>اختر ما تريده حقًا.",
-
-        adventure:
-          "أذهب في مغامرة",
-
-        sunset:
-          "أشاهد الغروب",
-
-        nothing:
-          "لا أفعل شيئًا إطلاقًا",
-
-        create:
-          "أنشئ يومي ←",
-
-        resultLabel:
-          "يومك الأخير",
-
-        resultTitle:
-          "يومك<br>المثالي.",
-
-        resultSubtitle:
-          "يوم مبني حول الأشياء التي تعني لك الكثير.",
-
-        resultContinue:
-          "متابعة ←",
-
-        finalLabel:
-          "شيء أخير",
-
-        finalMain:
-          "لكن هناك شيء مهم...",
-
-        finalSecond:
-          "اليوم ليس يومك الأخير.",
-
-        finalSubtitle:
-          "فلماذا تنتظر؟",
-
-        restart:
-          "عِش اليوم ←",
-
-        wake:
-          "استيقظ",
-
-        wakeText:
-          "هذا اليوم مهم.",
-
-        sunsetEvent:
-          "الغروب",
-
-        sunsetText:
-          "ابقَ قليلًا بعد.",
-
-        finalEvent:
-          "فكرة أخيرة",
-
-        finalEventText:
-          "ماذا ستغيّر غدًا؟",
-
-        selectedPerson:
-          "الأشخاص الذين اخترتهم",
-
-        selectedPersonText:
-          "الأشخاص الذين تحبهم بانتظارك.",
-
-        selectedPlace:
-          "مكانك",
-
-        selectedPlaceText:
-          "اذهب إلى مكان تشعر أنه يشبهك.",
-
-        selectedActivity:
-          "لحظتك",
-
-        selectedActivityText:
-          "لا مواعيد. لا توقعات."
-
-      },
-
-
-      fr: {
-
-        introLabel:
-          "Imaginez ceci",
-
-        introTitle:
-          "Et si aujourd'hui<br>était votre <em>dernier jour ?</em>",
-
-        introSubtitle:
-          "Oubliez demain.<br>Oubliez hier.<br>Vous n'avez qu'aujourd'hui.",
-
-        start:
-          "Commencer l'expérience →",
-
-        peopleLabel:
-          "Les personnes",
-
-        peopleTitle:
-          "Avec qui passeriez-vous<br>votre dernier jour ?",
-
-        peopleSubtitle:
-          "Choisissez les personnes qui comptent le plus pour vous.",
-
-        love:
-          "Quelqu'un que j'aime",
-
-        family:
-          "Ma famille",
-
-        friend:
-          "Mon meilleur ami",
-
-        continue:
-          "Continuer →",
-
-        placeLabel:
-          "Le lieu",
-
-        placeTitle:
-          "Où<br>iriez-vous ?",
-
-        placeSubtitle:
-          "Si vous pouviez vous réveiller n'importe où demain...",
-
-        ocean:
-          "La mer",
-
-        oceanSmall:
-          "Un endroit paisible",
-
-        city:
-          "Une nouvelle ville",
-
-        citySmall:
-          "Un endroit inconnu",
-
-        home:
-          "Chez moi",
-
-        homeSmall:
-          "L'endroit où j'appartiens",
-
-        activityLabel:
-          "Le moment",
-
-        activityTitle:
-          "Que<br>feriez-vous ?",
-
-        activitySubtitle:
-          "Oubliez ce que vous êtes censé faire.<br>Choisissez ce que vous voulez vraiment.",
-
-        adventure:
-          "Partir à l'aventure",
-
-        sunset:
-          "Regarder le coucher du soleil",
-
-        nothing:
-          "Ne rien faire du tout",
-
-        create:
-          "Créer ma journée →",
-
-        resultLabel:
-          "Votre dernier jour",
-
-        resultTitle:
-          "Votre journée<br>parfaite.",
-
-        resultSubtitle:
-          "Une journée construite autour de ce qui compte pour vous.",
-
-        resultContinue:
-          "Continuer →",
-
-        finalLabel:
-          "Une dernière chose",
-
-        finalMain:
-          "Mais voici le plus important...",
-
-        finalSecond:
-          "Aujourd'hui n'est pas votre dernier jour.",
-
-        finalSubtitle:
-          "Alors pourquoi attendre ?",
-
-        restart:
-          "Vivez aujourd'hui →",
-
-        wake:
-          "Réveil",
-
-        wakeText:
-          "Cette journée compte.",
-
-        sunsetEvent:
-          "Coucher du soleil",
-
-        sunsetText:
-          "Restez encore un peu.",
-
-        finalEvent:
-          "Une dernière pensée",
-
-        finalEventText:
-          "Que changeriez-vous demain ?",
-
-        selectedPerson:
-          "Les personnes choisies",
-
-        selectedPersonText:
-          "Les personnes qui comptent vous attendent.",
-
-        selectedPlace:
-          "Votre endroit",
-
-        selectedPlaceText:
-          "Allez quelque part où vous vous sentez bien.",
-
-        selectedActivity:
-          "Votre moment",
-
-        selectedActivityText:
-          "Pas d'horaires. Pas d'attentes."
-
-      }
-
+    const messages={
+      en:"Choose an answer first.",
+      ar:"اختر إجابة أولًا.",
+      ma:"ختار جواب الأول.",
+      fr:"Choisissez d'abord une réponse."
     };
 
+    alert(messages[language]);
 
-    function setLanguage(lang) {
+    return;
 
-      language = lang;
+  }
 
-      localStorage.setItem("oneDayLeftLanguage", lang);
+  Object.keys(answer).forEach(key=>{
+    stats[key]+=answer[key];
+  });
 
-      document.documentElement.lang = lang;
+  currentQuestion++;
 
-      document.body.classList.toggle("rtl", lang === "ar");
+  if(currentQuestion>=window.testQuestions.length){
 
-      updateText();
+    calculateResult();
 
-      next("intro");
-    }
+  }else{
 
+    renderQuestion();
 
-    function updateText() {
+  }
 
-      const t = translations[language];
+}
 
-      document.getElementById("introLabel").innerHTML = t.introLabel;
 
-      document.getElementById("introTitle").innerHTML = t.introTitle;
+function calculateResult(){
 
-      document.getElementById("introSubtitle").innerHTML = t.introSubtitle;
+  let type="dreamer";
 
-      document.getElementById("startButton").innerHTML = t.start;
+  const scores=stats;
 
-      document.getElementById("peopleLabel").innerHTML = t.peopleLabel;
+  if(scores.creativity>=scores.curiosity &&
+     scores.creativity>=scores.connection &&
+     scores.creativity>=scores.logic){
 
-      document.getElementById("peopleTitle").innerHTML = t.peopleTitle;
+    type="creator";
 
-      document.getElementById("peopleSubtitle").innerHTML = t.peopleSubtitle;
+  }
 
-      document.getElementById("peopleButton").innerHTML = t.continue;
+  if(scores.curiosity>scores.creativity &&
+     scores.curiosity>=scores.connection &&
+     scores.curiosity>=scores.logic){
 
-      document.getElementById("placeLabel").innerHTML = t.placeLabel;
+    type="explorer";
 
-      document.getElementById("placeTitle").innerHTML = t.placeTitle;
+  }
 
-      document.getElementById("placeSubtitle").innerHTML = t.placeSubtitle;
+  if(scores.logic>scores.curiosity &&
+     scores.logic>=scores.connection &&
+     scores.logic>=scores.creativity){
 
-      document.getElementById("placeButton").innerHTML = t.continue;
+    type="thinker";
 
-      document.getElementById("activityLabel").innerHTML = t.activityLabel;
+  }
 
-      document.getElementById("activityTitle").innerHTML = t.activityTitle;
+  if(scores.connection>scores.logic &&
+     scores.connection>=scores.curiosity &&
+     scores.connection>=scores.creativity){
 
-      document.getElementById("activitySubtitle").innerHTML = t.activitySubtitle;
+    type="guardian";
 
-      document.getElementById("createButton").innerHTML = t.create;
+  }
 
-      document.getElementById("resultLabel").innerHTML = t.resultLabel;
+  if(
+    scores.selfAwareness>=
+    Math.max(
+      scores.creativity,
+      scores.curiosity,
+      scores.logic,
+      scores.connection
+    )
+  ){
 
-      document.getElementById("resultTitle").innerHTML = t.resultTitle;
+    type="dreamer";
 
-      document.getElementById("resultSubtitle").innerHTML = t.resultSubtitle;
+  }
 
-      document.getElementById("resultButton").innerHTML = t.resultContinue;
+  showResult(type);
 
-      document.getElementById("finalLabel").innerHTML = t.finalLabel;
+}
 
-      document.getElementById("finalMain").innerHTML = t.finalMain;
 
-      document.getElementById("finalSecond").innerHTML = t.finalSecond;
+function showResult(type){
 
-      document.getElementById("finalSubtitle").innerHTML = t.finalSubtitle;
+  const t=T[language];
 
-      document.getElementById("restartButton").innerHTML = t.restart;
+  const profile=t.types[type];
 
+  document.getElementById("resultLabel").innerHTML=
+    t.resultLabel;
 
-      document.querySelectorAll("[data-text]").forEach(element => {
+  document.getElementById("resultTitle").innerHTML=
+    t.resultTitle;
 
-        const key = element.getAttribute("data-text");
+  document.getElementById("resultType").innerHTML=
+    profile.name;
 
-        if (t[key]) {
-          element.innerHTML = t[key];
-        }
+  document.getElementById("resultDescription").innerHTML=
+    profile.description;
 
-      });
+  const statsContainer=document.getElementById("stats");
 
-    }
+  statsContainer.innerHTML="";
 
+  const maxValues={
 
-    function next(id) {
+    empathy:60,
+    creativity:60,
+    curiosity:60,
+    logic:60,
+    courage:60,
+    selfAwareness:60,
+    connection:60
 
-      document.querySelectorAll(".screen").forEach(screen => {
+  };
 
-        screen.classList.remove("active");
+  Object.keys(stats).forEach(key=>{
 
-      });
+    let percentage=Math.round(
+      Math.min(
+        100,
+        (stats[key]/maxValues[key])*100
+      )
+    );
 
+    const div=document.createElement("div");
 
-      const target = document.getElementById(id);
+    div.className="stat";
 
-      target.classList.add("active");
+    div.innerHTML=`
 
+      <div class="stat-head">
 
-      const content = target.querySelector(".content");
+        <span>${t.stats[key]}</span>
 
-      if (content) {
+        <span>${percentage}%</span>
 
-        content.classList.remove("fade");
+      </div>
 
-        void content.offsetWidth;
+      <div class="bar">
 
-        content.classList.add("fade");
-
-      }
-
-
-      window.scrollTo(0, 0);
-
-    }
-
-
-    function selectChoice(element, type, value) {
-
-      const parent = element.closest(".choices");
-
-      parent.querySelectorAll(".choice").forEach(button => {
-
-        button.classList.remove("selected");
-
-      });
-
-
-      element.classList.add("selected");
-
-      data[type] = value;
-
-    }
-
-
-    function goNext(type, nextScreen) {
-
-      if (!data[type]) {
-
-        alert(
-          language === "ar"
-            ? "اختر خيارًا أولًا."
-            : language === "fr"
-              ? "Choisissez d'abord une option."
-              : "Choose one option first."
-        );
-
-        return;
-
-      }
-
-
-      next(nextScreen);
-
-    }
-
-
-    function buildDay() {
-
-      if (!data.activity) {
-
-        alert(
-          language === "ar"
-            ? "اختر خيارًا أولًا."
-            : language === "fr"
-              ? "Choisissez d'abord une option."
-              : "Choose one option first."
-        );
-
-        return;
-
-      }
-
-
-      const t = translations[language];
-
-      const personText = t[data.person];
-
-      const placeText = t[data.place];
-
-      const activityText = t[data.activity];
-
-
-      const timeline = document.getElementById("timeline");
-
-
-      timeline.innerHTML = `
-
-        <div class="event">
-
-          <div class="time">08:00</div>
-
-          <div>
-
-            <h3>${t.wake}</h3>
-
-            <p>${t.wakeText}</p>
-
-          </div>
-
+        <div class="bar-fill"
+             style="width:${percentage}%">
         </div>
 
+      </div>
 
-        <div class="event">
+    `;
 
-          <div class="time">10:00</div>
+    statsContainer.appendChild(div);
 
-          <div>
-
-            <h3>${personText}</h3>
-
-            <p>${t.selectedPersonText}</p>
-
-          </div>
-
-        </div>
+  });
 
 
-        <div class="event">
+  const strongest=
+    Object.keys(stats)
+      .sort((a,b)=>stats[b]-stats[a])[0];
 
-          <div class="time">13:00</div>
+  const messages={
 
-          <div>
+    en:{
+      empathy:"Your answers show a strong emotional awareness.",
+      creativity:"You have a strong need to create and express yourself.",
+      curiosity:"You seem driven by curiosity and discovery.",
+      logic:"You naturally analyze before making important choices.",
+      courage:"You have a strong desire to choose your own path.",
+      selfAwareness:"You spend a lot of time trying to understand yourself.",
+      connection:"Relationships appear to be one of the most important parts of your world."
+    },
 
-            <h3>${placeText}</h3>
+    ar:{
+      empathy:"إجاباتك تظهر وعيًا عاطفيًا قويًا.",
+      creativity:"لديك حاجة واضحة للإبداع والتعبير عن نفسك.",
+      curiosity:"يبدو أن الفضول والاكتشاف يحركانك.",
+      logic:"تميل إلى التحليل قبل اتخاذ القرارات المهمة.",
+      courage:"لديك رغبة قوية في اختيار طريقك بنفسك.",
+      selfAwareness:"تقضي وقتًا كبيرًا في محاولة فهم نفسك.",
+      connection:"العلاقات تبدو من أهم الأشياء في عالمك."
+    },
 
-            <p>${t.selectedPlaceText}</p>
+    ma:{
+      empathy:"الأجوبة ديالك كيبانو فيهم وعي عاطفي قوي.",
+      creativity:"عندك رغبة كبيرة فالإبداع والتعبير على راسك.",
+      curiosity:"الفضول والاكتشاف باينين مهمين بزاف عندك.",
+      logic:"كتحب تحلل قبل ما تاخد القرارات المهمة.",
+      courage:"عندك رغبة قوية تختار الطريق ديالك بوحدك.",
+      selfAwareness:"كتقضي وقت كبير وانت كتحاول تفهم راسك.",
+      connection:"العلاقات باينين من أهم الحوايج فحياتك."
+    },
 
-          </div>
-
-        </div>
-
-
-        <div class="event">
-
-          <div class="time">17:30</div>
-
-          <div>
-
-            <h3>${activityText}</h3>
-
-            <p>${t.selectedActivityText}</p>
-
-          </div>
-
-        </div>
-
-
-        <div class="event">
-
-          <div class="time">20:00</div>
-
-          <div>
-
-            <h3>${t.sunsetEvent}</h3>
-
-            <p>${t.sunsetText}</p>
-
-          </div>
-
-        </div>
-
-
-        <div class="event">
-
-          <div class="time">23:59</div>
-
-          <div>
-
-            <h3>${t.finalEvent}</h3>
-
-            <p>${t.finalEventText}</p>
-
-          </div>
-
-        </div>
-
-      `;
-
-
-      next("result");
-
+    fr:{
+      empathy:"Vos réponses montrent une forte conscience émotionnelle.",
+      creativity:"Vous avez un fort besoin de créer et de vous exprimer.",
+      curiosity:"La curiosité et la découverte semblent vous guider.",
+      logic:"Vous analysez naturellement avant de prendre des décisions importantes.",
+      courage:"Vous avez un fort désir de choisir votre propre chemin.",
+      selfAwareness:"Vous passez beaucoup de temps à essayer de vous comprendre.",
+      connection:"Les relations semblent être l'une des choses les plus importantes pour vous."
     }
 
-
-    function restart() {
-
-      data.person = "";
-
-      data.place = "";
-
-      data.activity = "";
-
-      document.querySelectorAll(".choice").forEach(button => {
-
-        button.classList.remove("selected");
-
-      });
-
-      next("intro");
-
-    }
+  };
 
 
-    const savedLanguage =
-      localStorage.getItem("oneDayLeftLanguage");
+  document.getElementById("resultMessage").innerHTML=
+    messages[language][strongest];
+
+  document.getElementById("finishBtn").innerHTML=
+    t.finish;
+
+  show("result");
+
+}
 
 
-    if (savedLanguage && translations[savedLanguage]) {
+function showFinal(){
 
-      language = savedLanguage;
+  const t=T[language];
 
-      document.documentElement.lang = language;
+  document.getElementById("finalLabel").innerHTML=
+    t.finalLabel;
 
-      document.body.classList.toggle("rtl", language === "ar");
+  document.getElementById("finalText").innerHTML=
+    t.finalText;
 
-      updateText();
+  document.getElementById("finalSubtitle").innerHTML=
+    t.finalSubtitle;
 
-      next("intro");
+  document.getElementById("thanks").innerHTML=
+    t.thanks;
 
-    }
+  document.getElementById("restartBtn").innerHTML=
+    t.restart;
 
-  </script>
+  show("final");
+
+}
+
+
+function restart(){
+
+  show("intro");
+
+  updateIntro();
+
+}
+
+
+const savedLanguage=
+  localStorage.getItem("oneDayLeftLanguage");
+
+if(savedLanguage && T[savedLanguage]){
+
+  language=savedLanguage;
+
+  document.documentElement.lang=language;
+
+  document.body.classList.toggle(
+    "rtl",
+    language==="ar" || language==="ma"
+  );
+
+  updateIntro();
+
+  show("intro");
+
+}
+
+</script>
 
 </body>
 </html>
