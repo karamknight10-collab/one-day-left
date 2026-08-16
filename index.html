@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>One Day Left</title>
 
   <style>
@@ -19,77 +18,73 @@
 
     body {
       background: #080808;
-      color: #ffffff;
+      color: #fff;
       font-family: Arial, Helvetica, sans-serif;
       overflow-x: hidden;
+      transition: direction .3s;
     }
 
-    .hero {
+    button {
+      font: inherit;
+    }
+
+    .screen {
       min-height: 100vh;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
+      padding: 30px 20px;
       position: relative;
-      padding: 30px;
       overflow: hidden;
+    }
+
+    .screen.active {
+      display: flex;
     }
 
     .glow {
       position: absolute;
-      width: 500px;
-      height: 500px;
+      width: 550px;
+      height: 550px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,.055);
       filter: blur(120px);
-      animation: breathe 7s ease-in-out infinite;
+      animation: breathe 8s ease-in-out infinite;
+      pointer-events: none;
     }
 
     @keyframes breathe {
-      0%, 100% {
+      0%,100% {
         transform: scale(1);
-        opacity: 0.5;
+        opacity: .4;
       }
 
       50% {
         transform: scale(1.25);
-        opacity: 1;
+        opacity: .9;
       }
-    }
-
-    .top {
-      position: absolute;
-      top: 35px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.35);
-      white-space: nowrap;
     }
 
     .content {
       position: relative;
       z-index: 2;
+      width: min(900px, 100%);
       text-align: center;
-      max-width: 900px;
     }
 
-    .eyebrow {
-      font-size: 12px;
-      letter-spacing: 5px;
+    .label {
+      color: rgba(255,255,255,.38);
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.4);
-      margin-bottom: 30px;
-      animation: fadeUp 1.2s ease forwards;
+      letter-spacing: 5px;
+      font-size: 11px;
+      margin-bottom: 28px;
     }
 
     h1 {
-      font-size: clamp(52px, 9vw, 115px);
-      line-height: 0.95;
+      font-size: clamp(52px, 9vw, 110px);
+      line-height: .95;
       font-weight: 300;
       letter-spacing: -5px;
-      animation: fadeUp 1.4s ease forwards;
     }
 
     h1 em {
@@ -97,56 +92,176 @@
       font-weight: 400;
     }
 
-    .description {
-      margin: 35px auto 0;
-      max-width: 480px;
-      color: rgba(255, 255, 255, 0.45);
+    h2 {
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 1;
+      font-weight: 300;
+      letter-spacing: -3px;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,.45);
       line-height: 1.8;
-      font-size: 16px;
-      animation: fadeUp 1.8s ease forwards;
+      max-width: 550px;
+      margin: 0 auto 40px;
     }
 
-    .start {
-      margin-top: 45px;
-      padding: 17px 30px;
-      border-radius: 50px;
-      border: none;
-      background: white;
-      color: black;
-      font-size: 14px;
+    .btn {
+      border: 0;
+      background: #fff;
+      color: #000;
+      border-radius: 100px;
+      padding: 16px 28px;
       cursor: pointer;
-      transition: 0.3s ease;
-      animation: fadeUp 2s ease forwards;
+      transition: .3s;
     }
 
-    .start:hover {
-      transform: scale(1.06);
-      background: #e8e8e8;
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      background: #eee;
     }
 
-    .scroll {
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      max-width: 700px;
+      margin: 35px auto;
+    }
+
+    .choice {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.035);
+      color: #fff;
+      border-radius: 20px;
+      padding: 28px 15px;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .choice:hover {
+      border-color: rgba(255,255,255,.45);
+      background: rgba(255,255,255,.08);
+      transform: translateY(-4px);
+    }
+
+    .choice.selected {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    .emoji {
+      display: block;
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .choice small {
+      display: block;
+      margin-top: 7px;
+      opacity: .45;
+    }
+
+    .progress {
       position: absolute;
-      bottom: 30px;
+      top: 30px;
       left: 50%;
       transform: translateX(-50%);
-      color: rgba(255, 255, 255, 0.3);
-      font-size: 10px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      animation: float 2s ease-in-out infinite;
+      color: rgba(255,255,255,.3);
+      font-size: 11px;
+      letter-spacing: 3px;
     }
 
-    @keyframes float {
-      0%, 100% {
-        transform: translate(-50%, 0);
-      }
-
-      50% {
-        transform: translate(-50%, 8px);
-      }
+    .timeline {
+      max-width: 650px;
+      margin: 40px auto;
+      text-align: left;
     }
 
-    @keyframes fadeUp {
+    .event {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .time {
+      color: rgba(255,255,255,.35);
+      font-size: 13px;
+      padding-top: 4px;
+    }
+
+    .event h3 {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .event p {
+      color: rgba(255,255,255,.4);
+      font-size: 14px;
+    }
+
+    .final-text {
+      font-family: Georgia, serif;
+      font-size: clamp(42px, 7vw, 85px);
+      line-height: 1.05;
+    }
+
+    .final-text span {
+      color: rgba(255,255,255,.35);
+    }
+
+    .language-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      max-width: 650px;
+      margin: 40px auto;
+    }
+
+    .language {
+      padding: 30px 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.035);
+      color: white;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .language:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.4);
+    }
+
+    .language .flag {
+      display: block;
+      font-size: 38px;
+      margin-bottom: 15px;
+    }
+
+    .language strong {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .language span {
+      display: block;
+      margin-top: 7px;
+      font-size: 12px;
+      color: rgba(255,255,255,.35);
+    }
+
+    .fade {
+      animation: fade .8s ease;
+    }
+
+    @keyframes fade {
       from {
         opacity: 0;
         transform: translateY(25px);
@@ -158,90 +273,1073 @@
       }
     }
 
-    .experience {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      text-align: center;
+    body.rtl {
+      direction: rtl;
     }
 
-    .experience h2 {
-      font-size: clamp(35px, 6vw, 70px);
-      font-weight: 300;
-      margin-bottom: 20px;
+    body.rtl .label {
+      letter-spacing: 1px;
     }
 
-    .experience p {
-      color: rgba(255, 255, 255, 0.45);
-      max-width: 500px;
-      margin: auto;
-      line-height: 1.8;
+    body.rtl h1,
+    body.rtl h2 {
+      letter-spacing: 0;
+    }
+
+    body.rtl .timeline {
+      text-align: right;
+    }
+
+    body.rtl .event {
+      grid-template-columns: 1fr 80px;
+    }
+
+    body.rtl .event .time {
+      order: 2;
+    }
+
+    body.rtl .event > div:last-child {
+      order: 1;
+    }
+
+    @media(max-width: 650px) {
+      .choices,
+      .language-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+
+      .choice,
+      .language {
+        padding: 22px;
+      }
+
+      .event {
+        grid-template-columns: 65px 1fr;
+      }
+
+      body.rtl .event {
+        grid-template-columns: 1fr 65px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <section class="hero">
+  <!-- LANGUAGE -->
+  <section class="screen active" id="language">
 
     <div class="glow"></div>
 
-    <div class="top">
-      One Day Left
-    </div>
+    <div class="content fade">
 
-    <div class="content">
-
-      <div class="eyebrow">
-        Imagine this
-      </div>
-
-      <h1>
-        What if today<br>
-        was your <em>last?</em>
-      </h1>
-
-      <p class="description">
-        Forget tomorrow.<br>
-        Forget yesterday.<br>
-        You only have today.
-      </p>
-
-      <button
-        class="start"
-        onclick="document.getElementById('experience').scrollIntoView()"
-      >
-        Begin the experience →
-      </button>
-
-    </div>
-
-    <div class="scroll">
-      Scroll ↓
-    </div>
-
-  </section>
-
-
-  <section class="experience" id="experience">
-
-    <div>
+      <div class="label">One Day Left</div>
 
       <h2>
-        Who would you<br>
-        spend it with?
+        Choose your language
       </h2>
 
-      <p>
-        This is where your journey begins.
-        Soon, you'll build your perfect final day.
+      <p class="subtitle">
+        Choose the language you want to experience this journey in.
       </p>
+
+      <div class="language-grid">
+
+        <button class="language" onclick="setLanguage('ar')">
+          <span class="flag">🇸🇦</span>
+          <strong>العربية</strong>
+          <span>العربية</span>
+        </button>
+
+        <button class="language" onclick="setLanguage('en')">
+          <span class="flag">🇬🇧</span>
+          <strong>English</strong>
+          <span>English</span>
+        </button>
+
+        <button class="language" onclick="setLanguage('fr')">
+          <span class="flag">🇫🇷</span>
+          <strong>Français</strong>
+          <span>Français</span>
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- INTRO -->
+  <section class="screen" id="intro">
+
+    <div class="glow"></div>
+
+    <div class="content fade">
+
+      <div class="label" id="introLabel"></div>
+
+      <h1 id="introTitle"></h1>
+
+      <p class="subtitle" id="introSubtitle"></p>
+
+      <button class="btn" id="startButton" onclick="next('people')"></button>
 
     </div>
 
   </section>
+
+
+  <!-- PEOPLE -->
+  <section class="screen" id="people">
+
+    <div class="progress">01 / 03</div>
+
+    <div class="content fade">
+
+      <div class="label" id="peopleLabel"></div>
+
+      <h2 id="peopleTitle"></h2>
+
+      <p class="subtitle" id="peopleSubtitle"></p>
+
+      <div class="choices">
+
+        <button class="choice" onclick="selectChoice(this, 'person', 'love')">
+          <span class="emoji">❤️</span>
+          <span data-text="love"></span>
+        </button>
+
+        <button class="choice" onclick="selectChoice(this, 'person', 'family')">
+          <span class="emoji">🏠</span>
+          <span data-text="family"></span>
+        </button>
+
+        <button class="choice" onclick="selectChoice(this, 'person', 'friend')">
+          <span class="emoji">🫂</span>
+          <span data-text="friend"></span>
+        </button>
+
+      </div>
+
+      <button class="btn" id="peopleButton" onclick="goNext('person', 'place')"></button>
+
+    </div>
+
+  </section>
+
+
+  <!-- PLACE -->
+  <section class="screen" id="place">
+
+    <div class="progress">02 / 03</div>
+
+    <div class="content fade">
+
+      <div class="label" id="placeLabel"></div>
+
+      <h2 id="placeTitle"></h2>
+
+      <p class="subtitle" id="placeSubtitle"></p>
+
+      <div class="choices">
+
+        <button class="choice" onclick="selectChoice(this, 'place', 'ocean')">
+          <span class="emoji">🌊</span>
+          <span data-text="ocean"></span>
+          <small data-text="oceanSmall"></small>
+        </button>
+
+        <button class="choice" onclick="selectChoice(this, 'place', 'city')">
+          <span class="emoji">🌆</span>
+          <span data-text="city"></span>
+          <small data-text="citySmall"></small>
+        </button>
+
+        <button class="choice" onclick="selectChoice(this, 'place', 'home')">
+          <span class="emoji">🏡</span>
+          <span data-text="home"></span>
+          <small data-text="homeSmall"></small>
+        </button>
+
+      </div>
+
+      <button class="btn" id="placeButton" onclick="goNext('place', 'activity')"></button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ACTIVITY -->
+  <section class="screen" id="activity">
+
+    <div class="progress">03 / 03</div>
+
+    <div class="content fade">
+
+      <div class="label" id="activityLabel"></div>
+
+      <h2 id="activityTitle"></h2>
+
+      <p class="subtitle" id="activitySubtitle"></p>
+
+      <div class="choices">
+
+        <button class="choice" onclick="selectChoice(this, 'activity', 'adventure')">
+          <span class="emoji">🚗</span>
+          <span data-text="adventure"></span>
+        </button>
+
+        <button class="choice" onclick="selectChoice(this, 'activity', 'sunset')">
+          <span class="emoji">🌅</span>
+          <span data-text="sunset"></span>
+        </button>
+
+        <button class="choice" onclick="selectChoice(this, 'activity', 'nothing')">
+          <span class="emoji">✨</span>
+          <span data-text="nothing"></span>
+        </button>
+
+      </div>
+
+      <button class="btn" id="createButton" onclick="buildDay()"></button>
+
+    </div>
+
+  </section>
+
+
+  <!-- RESULT -->
+  <section class="screen" id="result">
+
+    <div class="content fade">
+
+      <div class="label" id="resultLabel"></div>
+
+      <h2 id="resultTitle"></h2>
+
+      <p class="subtitle" id="resultSubtitle"></p>
+
+      <div class="timeline" id="timeline"></div>
+
+      <button class="btn" id="resultButton" onclick="next('final')"></button>
+
+    </div>
+
+  </section>
+
+
+  <!-- FINAL -->
+  <section class="screen" id="final">
+
+    <div class="glow"></div>
+
+    <div class="content fade">
+
+      <div class="label" id="finalLabel"></div>
+
+      <div class="final-text">
+        <span id="finalMain"></span>
+        <br><br>
+        <span id="finalSecond"></span>
+      </div>
+
+      <p class="subtitle" id="finalSubtitle"></p>
+
+      <button class="btn" id="restartButton" onclick="restart()"></button>
+
+    </div>
+
+  </section>
+
+
+  <script>
+
+    let language = "en";
+
+    const data = {
+      person: "",
+      place: "",
+      activity: ""
+    };
+
+
+    const translations = {
+
+      en: {
+
+        introLabel: "Imagine this",
+
+        introTitle:
+          "What if today<br>was your <em>last?</em>",
+
+        introSubtitle:
+          "Forget tomorrow.<br>Forget yesterday.<br>You only have today.",
+
+        start:
+          "Begin the experience →",
+
+        peopleLabel:
+          "The people",
+
+        peopleTitle:
+          "Who would you<br>spend it with?",
+
+        peopleSubtitle:
+          "Choose the people who matter most.",
+
+        love:
+          "Someone I love",
+
+        family:
+          "My family",
+
+        friend:
+          "My closest friend",
+
+        continue:
+          "Continue →",
+
+        placeLabel:
+          "The place",
+
+        placeTitle:
+          "Where would<br>you go?",
+
+        placeSubtitle:
+          "If you could wake up anywhere tomorrow...",
+
+        ocean:
+          "The ocean",
+
+        oceanSmall:
+          "Somewhere peaceful",
+
+        city:
+          "A new city",
+
+        citySmall:
+          "Somewhere unknown",
+
+        home:
+          "Home",
+
+        homeSmall:
+          "Where I belong",
+
+        activityLabel:
+          "The moment",
+
+        activityTitle:
+          "What would<br>you do?",
+
+        activitySubtitle:
+          "Forget what you're supposed to do.<br>Choose what you actually want.",
+
+        adventure:
+          "Go on an adventure",
+
+        sunset:
+          "Watch the sunset",
+
+        nothing:
+          "Do absolutely nothing",
+
+        create:
+          "Create my day →",
+
+        resultLabel:
+          "Your last day",
+
+        resultTitle:
+          "Your perfect<br>day.",
+
+        resultSubtitle:
+          "A day built around what matters to you.",
+
+        resultContinue:
+          "Continue →",
+
+        finalLabel:
+          "One more thing",
+
+        finalMain:
+          "But here's the thing...",
+
+        finalSecond:
+          "Today isn't your last day.",
+
+        finalSubtitle:
+          "So why are you waiting?",
+
+        restart:
+          "Live today →",
+
+        wake:
+          "Wake up",
+
+        wakeText:
+          "Today matters.",
+
+        sunsetEvent:
+          "Sunset",
+
+        sunsetText:
+          "Stay a little longer.",
+
+        finalEvent:
+          "One last thought",
+
+        finalEventText:
+          "What would you change tomorrow?",
+
+        selectedPerson:
+          "The people you chose",
+
+        selectedPersonText:
+          "The people who matter are waiting.",
+
+        selectedPlace:
+          "Your place",
+
+        selectedPlaceText:
+          "Go somewhere that feels right.",
+
+        selectedActivity:
+          "Your moment",
+
+        selectedActivityText:
+          "No schedules. No expectations."
+
+      },
+
+
+      ar: {
+
+        introLabel:
+          "تخيّل هذا",
+
+        introTitle:
+          "ماذا لو كان اليوم<br>هو <em>يومك الأخير؟</em>",
+
+        introSubtitle:
+          "انسَ الغد.<br>انسَ الأمس.<br>ليس لديك سوى اليوم.",
+
+        start:
+          "ابدأ التجربة ←",
+
+        peopleLabel:
+          "الأشخاص",
+
+        peopleTitle:
+          "مع من ستقضي<br>يومك الأخير؟",
+
+        peopleSubtitle:
+          "اختر الأشخاص الذين يعني وجودهم الكثير لك.",
+
+        love:
+          "شخص أحبه",
+
+        family:
+          "عائلتي",
+
+        friend:
+          "أقرب صديق لي",
+
+        continue:
+          "متابعة ←",
+
+        placeLabel:
+          "المكان",
+
+        placeTitle:
+          "إلى أين<br>ستذهب؟",
+
+        placeSubtitle:
+          "لو كان بإمكانك الاستيقاظ غدًا في أي مكان...",
+
+        ocean:
+          "البحر",
+
+        oceanSmall:
+          "مكان هادئ",
+
+        city:
+          "مدينة جديدة",
+
+        citySmall:
+          "مكان لم تعرفه من قبل",
+
+        home:
+          "المنزل",
+
+        homeSmall:
+          "المكان الذي أنتمي إليه",
+
+        activityLabel:
+          "اللحظة",
+
+        activityTitle:
+          "ماذا<br>ستفعل؟",
+
+        activitySubtitle:
+          "انسَ ما يُفترض أن تفعله.<br>اختر ما تريده حقًا.",
+
+        adventure:
+          "أذهب في مغامرة",
+
+        sunset:
+          "أشاهد الغروب",
+
+        nothing:
+          "لا أفعل شيئًا إطلاقًا",
+
+        create:
+          "أنشئ يومي ←",
+
+        resultLabel:
+          "يومك الأخير",
+
+        resultTitle:
+          "يومك<br>المثالي.",
+
+        resultSubtitle:
+          "يوم مبني حول الأشياء التي تعني لك الكثير.",
+
+        resultContinue:
+          "متابعة ←",
+
+        finalLabel:
+          "شيء أخير",
+
+        finalMain:
+          "لكن هناك شيء مهم...",
+
+        finalSecond:
+          "اليوم ليس يومك الأخير.",
+
+        finalSubtitle:
+          "فلماذا تنتظر؟",
+
+        restart:
+          "عِش اليوم ←",
+
+        wake:
+          "استيقظ",
+
+        wakeText:
+          "هذا اليوم مهم.",
+
+        sunsetEvent:
+          "الغروب",
+
+        sunsetText:
+          "ابقَ قليلًا بعد.",
+
+        finalEvent:
+          "فكرة أخيرة",
+
+        finalEventText:
+          "ماذا ستغيّر غدًا؟",
+
+        selectedPerson:
+          "الأشخاص الذين اخترتهم",
+
+        selectedPersonText:
+          "الأشخاص الذين تحبهم بانتظارك.",
+
+        selectedPlace:
+          "مكانك",
+
+        selectedPlaceText:
+          "اذهب إلى مكان تشعر أنه يشبهك.",
+
+        selectedActivity:
+          "لحظتك",
+
+        selectedActivityText:
+          "لا مواعيد. لا توقعات."
+
+      },
+
+
+      fr: {
+
+        introLabel:
+          "Imaginez ceci",
+
+        introTitle:
+          "Et si aujourd'hui<br>était votre <em>dernier jour ?</em>",
+
+        introSubtitle:
+          "Oubliez demain.<br>Oubliez hier.<br>Vous n'avez qu'aujourd'hui.",
+
+        start:
+          "Commencer l'expérience →",
+
+        peopleLabel:
+          "Les personnes",
+
+        peopleTitle:
+          "Avec qui passeriez-vous<br>votre dernier jour ?",
+
+        peopleSubtitle:
+          "Choisissez les personnes qui comptent le plus pour vous.",
+
+        love:
+          "Quelqu'un que j'aime",
+
+        family:
+          "Ma famille",
+
+        friend:
+          "Mon meilleur ami",
+
+        continue:
+          "Continuer →",
+
+        placeLabel:
+          "Le lieu",
+
+        placeTitle:
+          "Où<br>iriez-vous ?",
+
+        placeSubtitle:
+          "Si vous pouviez vous réveiller n'importe où demain...",
+
+        ocean:
+          "La mer",
+
+        oceanSmall:
+          "Un endroit paisible",
+
+        city:
+          "Une nouvelle ville",
+
+        citySmall:
+          "Un endroit inconnu",
+
+        home:
+          "Chez moi",
+
+        homeSmall:
+          "L'endroit où j'appartiens",
+
+        activityLabel:
+          "Le moment",
+
+        activityTitle:
+          "Que<br>feriez-vous ?",
+
+        activitySubtitle:
+          "Oubliez ce que vous êtes censé faire.<br>Choisissez ce que vous voulez vraiment.",
+
+        adventure:
+          "Partir à l'aventure",
+
+        sunset:
+          "Regarder le coucher du soleil",
+
+        nothing:
+          "Ne rien faire du tout",
+
+        create:
+          "Créer ma journée →",
+
+        resultLabel:
+          "Votre dernier jour",
+
+        resultTitle:
+          "Votre journée<br>parfaite.",
+
+        resultSubtitle:
+          "Une journée construite autour de ce qui compte pour vous.",
+
+        resultContinue:
+          "Continuer →",
+
+        finalLabel:
+          "Une dernière chose",
+
+        finalMain:
+          "Mais voici le plus important...",
+
+        finalSecond:
+          "Aujourd'hui n'est pas votre dernier jour.",
+
+        finalSubtitle:
+          "Alors pourquoi attendre ?",
+
+        restart:
+          "Vivez aujourd'hui →",
+
+        wake:
+          "Réveil",
+
+        wakeText:
+          "Cette journée compte.",
+
+        sunsetEvent:
+          "Coucher du soleil",
+
+        sunsetText:
+          "Restez encore un peu.",
+
+        finalEvent:
+          "Une dernière pensée",
+
+        finalEventText:
+          "Que changeriez-vous demain ?",
+
+        selectedPerson:
+          "Les personnes choisies",
+
+        selectedPersonText:
+          "Les personnes qui comptent vous attendent.",
+
+        selectedPlace:
+          "Votre endroit",
+
+        selectedPlaceText:
+          "Allez quelque part où vous vous sentez bien.",
+
+        selectedActivity:
+          "Votre moment",
+
+        selectedActivityText:
+          "Pas d'horaires. Pas d'attentes."
+
+      }
+
+    };
+
+
+    function setLanguage(lang) {
+
+      language = lang;
+
+      localStorage.setItem("oneDayLeftLanguage", lang);
+
+      document.documentElement.lang = lang;
+
+      document.body.classList.toggle("rtl", lang === "ar");
+
+      updateText();
+
+      next("intro");
+    }
+
+
+    function updateText() {
+
+      const t = translations[language];
+
+      document.getElementById("introLabel").innerHTML = t.introLabel;
+
+      document.getElementById("introTitle").innerHTML = t.introTitle;
+
+      document.getElementById("introSubtitle").innerHTML = t.introSubtitle;
+
+      document.getElementById("startButton").innerHTML = t.start;
+
+      document.getElementById("peopleLabel").innerHTML = t.peopleLabel;
+
+      document.getElementById("peopleTitle").innerHTML = t.peopleTitle;
+
+      document.getElementById("peopleSubtitle").innerHTML = t.peopleSubtitle;
+
+      document.getElementById("peopleButton").innerHTML = t.continue;
+
+      document.getElementById("placeLabel").innerHTML = t.placeLabel;
+
+      document.getElementById("placeTitle").innerHTML = t.placeTitle;
+
+      document.getElementById("placeSubtitle").innerHTML = t.placeSubtitle;
+
+      document.getElementById("placeButton").innerHTML = t.continue;
+
+      document.getElementById("activityLabel").innerHTML = t.activityLabel;
+
+      document.getElementById("activityTitle").innerHTML = t.activityTitle;
+
+      document.getElementById("activitySubtitle").innerHTML = t.activitySubtitle;
+
+      document.getElementById("createButton").innerHTML = t.create;
+
+      document.getElementById("resultLabel").innerHTML = t.resultLabel;
+
+      document.getElementById("resultTitle").innerHTML = t.resultTitle;
+
+      document.getElementById("resultSubtitle").innerHTML = t.resultSubtitle;
+
+      document.getElementById("resultButton").innerHTML = t.resultContinue;
+
+      document.getElementById("finalLabel").innerHTML = t.finalLabel;
+
+      document.getElementById("finalMain").innerHTML = t.finalMain;
+
+      document.getElementById("finalSecond").innerHTML = t.finalSecond;
+
+      document.getElementById("finalSubtitle").innerHTML = t.finalSubtitle;
+
+      document.getElementById("restartButton").innerHTML = t.restart;
+
+
+      document.querySelectorAll("[data-text]").forEach(element => {
+
+        const key = element.getAttribute("data-text");
+
+        if (t[key]) {
+          element.innerHTML = t[key];
+        }
+
+      });
+
+    }
+
+
+    function next(id) {
+
+      document.querySelectorAll(".screen").forEach(screen => {
+
+        screen.classList.remove("active");
+
+      });
+
+
+      const target = document.getElementById(id);
+
+      target.classList.add("active");
+
+
+      const content = target.querySelector(".content");
+
+      if (content) {
+
+        content.classList.remove("fade");
+
+        void content.offsetWidth;
+
+        content.classList.add("fade");
+
+      }
+
+
+      window.scrollTo(0, 0);
+
+    }
+
+
+    function selectChoice(element, type, value) {
+
+      const parent = element.closest(".choices");
+
+      parent.querySelectorAll(".choice").forEach(button => {
+
+        button.classList.remove("selected");
+
+      });
+
+
+      element.classList.add("selected");
+
+      data[type] = value;
+
+    }
+
+
+    function goNext(type, nextScreen) {
+
+      if (!data[type]) {
+
+        alert(
+          language === "ar"
+            ? "اختر خيارًا أولًا."
+            : language === "fr"
+              ? "Choisissez d'abord une option."
+              : "Choose one option first."
+        );
+
+        return;
+
+      }
+
+
+      next(nextScreen);
+
+    }
+
+
+    function buildDay() {
+
+      if (!data.activity) {
+
+        alert(
+          language === "ar"
+            ? "اختر خيارًا أولًا."
+            : language === "fr"
+              ? "Choisissez d'abord une option."
+              : "Choose one option first."
+        );
+
+        return;
+
+      }
+
+
+      const t = translations[language];
+
+      const personText = t[data.person];
+
+      const placeText = t[data.place];
+
+      const activityText = t[data.activity];
+
+
+      const timeline = document.getElementById("timeline");
+
+
+      timeline.innerHTML = `
+
+        <div class="event">
+
+          <div class="time">08:00</div>
+
+          <div>
+
+            <h3>${t.wake}</h3>
+
+            <p>${t.wakeText}</p>
+
+          </div>
+
+        </div>
+
+
+        <div class="event">
+
+          <div class="time">10:00</div>
+
+          <div>
+
+            <h3>${personText}</h3>
+
+            <p>${t.selectedPersonText}</p>
+
+          </div>
+
+        </div>
+
+
+        <div class="event">
+
+          <div class="time">13:00</div>
+
+          <div>
+
+            <h3>${placeText}</h3>
+
+            <p>${t.selectedPlaceText}</p>
+
+          </div>
+
+        </div>
+
+
+        <div class="event">
+
+          <div class="time">17:30</div>
+
+          <div>
+
+            <h3>${activityText}</h3>
+
+            <p>${t.selectedActivityText}</p>
+
+          </div>
+
+        </div>
+
+
+        <div class="event">
+
+          <div class="time">20:00</div>
+
+          <div>
+
+            <h3>${t.sunsetEvent}</h3>
+
+            <p>${t.sunsetText}</p>
+
+          </div>
+
+        </div>
+
+
+        <div class="event">
+
+          <div class="time">23:59</div>
+
+          <div>
+
+            <h3>${t.finalEvent}</h3>
+
+            <p>${t.finalEventText}</p>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      next("result");
+
+    }
+
+
+    function restart() {
+
+      data.person = "";
+
+      data.place = "";
+
+      data.activity = "";
+
+      document.querySelectorAll(".choice").forEach(button => {
+
+        button.classList.remove("selected");
+
+      });
+
+      next("intro");
+
+    }
+
+
+    const savedLanguage =
+      localStorage.getItem("oneDayLeftLanguage");
+
+
+    if (savedLanguage && translations[savedLanguage]) {
+
+      language = savedLanguage;
+
+      document.documentElement.lang = language;
+
+      document.body.classList.toggle("rtl", language === "ar");
+
+      updateText();
+
+      next("intro");
+
+    }
+
+  </script>
 
 </body>
 </html>
